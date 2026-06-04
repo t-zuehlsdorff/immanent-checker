@@ -1,0 +1,185 @@
+[[_TOC_]]
+
+# Immanent Code Checker
+
+The Immanent Code Checker:
+
+* reduces the need of writing Unit-Tests while improving source code quality
+* allows linting the whole project by being language agnostic
+* enables complex tests through the whole project
+* can be easily extended to cover your needs in these topics
+
+# Background Theory
+
+Modern linters focus on source code structure, while static analysis tools focus
+on issues that arise from the structure of the code. Both need the source code,
+but they address very different needs and have typical limitations at the same
+time.
+
+This separation is arbitrary and obstructive. It created a gap that the
+**Immanent Code Checker** closes: checking expected code and expected code behavior.
+
+To illustrate this, consider a simple example: reading a file at a given path.
+Every good function will check:
+
+1. whether the path exists
+1. whether the file is readable
+1. whether opening the file succeeded
+1. whether each read access succeeded
+
+Unit tests are commonly used to check whether the code *behaves* accordingly.
+This is unnecessary, because each of these points can be checked through source
+code analysis. The source code shows whether the corresponding code exists or
+not. A general check of the codebase for this requirement therefore reduces the
+effort needed for unit tests. At the same time, it improves quality because the
+rule is applied coherently across the project and does not need to be tested for
+each individual function.
+
+There are many such semantic dependencies between functionality and
+expectation. They are usually specific, but cross-project. Projects designed for
+high performance or low development effort may intentionally choose not to
+follow such a rule. Other projects may always value it, except for a specific
+hotspot that receives special handling.
+
+The **Immanent Code Checker** makes it possible to check exactly these semantic
+relationships. Linting, style guide enforcement, and static code analysis are
+only a subset of its work.
+
+# How It Works
+
+To use the **Immanent Code Checker** effectively, it helps to understand how it
+works. A project run consists of 3 phases, which are described below:
+
+## 1. Exploration
+
+In the first step, the *complete* project is explored. The checker creates an
+overview of the entire project at file-system level. This includes:
+
+* all files
+* all directories
+* file permissions
+
+At this point, there is *no* content-level validation yet. Exploration is used
+to take inventory of the project. Only what is known can be checked.
+
+## 2. Analysis
+
+Analysis happens in 4 sections. It is especially important to understand that
+checks are registered for a specific analysis section. When that section is
+processed, all checks registered for it are called one after another. They
+receive the context of the current section as an argument and are responsible
+for the rest of their analysis themselves.
+
+One might intuitively expect the system to iterate over all files and call the
+different checks for each file. That iteration is not the central control flow
+of the system. The central control flow is the analysis section for which a
+check registered itself. The sections are:
+
+1. The complete project
+
+Some checks analyze the complete project, for example to verify whether naming
+conventions or directory structures are followed. This section can also be used
+to check for the existence of directories and files that should not be analyzed
+further.
+
+2. The complete project after exclusion filters
+
+Exclusion filters can be defined to prevent files or directories from being
+checked. A typical example is excluding third-party code in directories such as
+`vendor` or `node_modules`.
+
+The separation between the complete project and the project after exclusion
+filters is intentional. Some checks need to know that certain files or
+directories exist without analyzing their contents. For example, a check can
+verify that third-party code exists and is excluded correctly, while other
+checks only operate on the project's own code.
+
+If a check needs to inspect the entire *own* project, it is executed here. For
+example, naming conventions for files and directories are checked in this
+section.
+
+3. An entire directory
+
+Checks that need to inspect a directory recursively are executed here. Examples
+include checking whether all relevant files exist in a plugin directory or
+whether a directory is coherent in itself.
+
+4. A file
+
+The most common type of check inspects a file. Everything for which the context
+of a single file is sufficient is checked here.
+
+## 3. Result
+
+All findings from the analysis are collected in the result. It is important to
+understand that the **Immanent Code Checker** has an absolute quality standard.
+When a check is defined, every violation is considered an **error**.
+
+Severity levels are intentionally not part of this model. An enabled check
+describes a hard project requirement. If that requirement is violated, the
+result is erroneous.
+
+Accordingly, the result consists of a list of documented violations with the
+relevant information needed to fix them.
+
+Furthermore, a single error is enough to return an exit code != 0, so CI systems
+fail accordingly.
+
+# Checks
+
+A check is registered for an analysis section. When it is called, it receives
+the active context of that section as an argument. Depending on the section,
+this is the complete project structure, the project structure after exclusion
+rules, the path to a directory, or the path to a file.
+
+Checks for directories and files can also register with an optional pattern. If
+such a pattern is set, the check is only called when the path that would be
+passed to it matches the pattern. Pattern matching uses PHP's `fnmatch`
+semantics, which are similar to common shell-style glob patterns. Patterns are
+matched against project-relative paths, without the project root prefix. For
+example:
+
+* `*.php` matches every project-relative file path ending in `.php`
+* `src/*.php` matches PHP files directly inside `src`
+* `src/*/Controller.php` matches `Controller.php` one directory below `src`
+
+The behavior of a check is fully under its own control. Some checks only read a
+file, for example to verify that it always ends with an empty line. Other checks
+call a parser and operate on its result. A check can call one or more parsers to
+achieve its goal. This is intentional: the checker framework does not prescribe
+whether a check works on raw files, parser output, or any other derived
+representation.
+
+A check reports violations through the checker API. It can report any number of
+violations during a single run.
+
+# Parser
+
+The **Immanent Code Checker** is language-agnostic. It does not assume any
+specific language and is explicitly designed to check multiple languages within
+a project by using parsers.
+
+A parser reads a file and creates a defined form from it. This can be a syntax
+tree, a token stream, a list of metadata, or any other format that is useful for
+checks.
+
+Parsers are independent components. A check does not bring its own parser. If a
+check needs a parser, it requires that parser and works with its output format.
+
+Accordingly, parsers make file contents understandable. Checks verify whether
+these contents meet the expectations of the project.
+
+In addition to built-in parsers, custom parsers can be registered. This makes it
+possible to check additional languages, configuration formats, or completely
+custom syntaxes.
+
+It is possible to register multiple parsers for the same language. This is
+useful because different parsers produce different output formats. Depending on
+the goal, one format or another may be better suited for implementing a check.
+
+Within a run, files are assumed not to change. If a check calls the same parser
+for the same file as another check before it, the parser may return the result
+it already created.
+
+In general, parsers operate at file level. Everything that concerns project-wide
+relationships remains the responsibility of checks.
