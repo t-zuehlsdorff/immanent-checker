@@ -135,3 +135,59 @@ function testRegisterAllowsSameNameInDifferentStages() {
   assertTrue($objFileRegistry->exists($strName));
 
 }
+
+/**
+  * Expect the stage registry validator to reject empty check names.
+  **/
+function testStageRegistryRejectsEmptyCheckName() {
+
+  $cloTest = function () {
+
+    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+                                        '',
+                                        function () { return true; },
+                                        'valid description');
+
+  };
+
+  expectException($cloTest, "\Exception");
+
+}
+
+/**
+  * Expect the stage registry validator to reject check names with surrounding
+  * whitespace.
+  **/
+function testStageRegistryRejectsCheckNameWithSurroundingWhitespace() {
+
+  $cloTest = function () {
+
+    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+                                        ' InvalidCheckName ',
+                                        function () { return true; },
+                                        'valid description');
+
+  };
+
+  expectException($cloTest, "\Exception");
+
+}
+
+/**
+  * Expect the stage registry validator to reject descriptions with surrounding
+  * whitespace.
+  **/
+function testStageRegistryRejectsDescriptionWithSurroundingWhitespace() {
+
+  $cloTest = function () {
+
+    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+                                        'InvalidDescriptionWhitespace' . uniqid(),
+                                        function () { return true; },
+                                        ' valid description ');
+
+  };
+
+  expectException($cloTest, "\Exception");
+
+}

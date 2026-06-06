@@ -10,4 +10,7 @@ const STAGE_FILE             = 'stage_file';
 require_once __DIR__ . '/inc/DataObject.class.php';
 require_once __DIR__ . '/inc/DataObjectPool.class.php';
 
+require_once __DIR__ . '/inc/check/initPools.func.php';
 require_once __DIR__ . '/inc/check/register.func.php';
+
+\ImmanentCodeChecker\Check\initPools();
