@@ -7,12 +7,12 @@ namespace ImmanentCodeChecker;
   * the DataObjects for different types.
   *
   * DataObjects are stored within groups. Every group
-  * has a validatator, with is applyed to
+  * has a validator, which is applied to
   * every DataObject stored in the group.
   * If no validator is set, all data are accepted.
   *
   * A DataObject is referenced by an identifier,
-  * which is uniqiue within a group.
+  * which is unique within a group.
   *
   * when creating a DataObjectPool instance,
   * the wanted group is set. All following
@@ -37,8 +37,8 @@ class DataObjectPool {
   
   /**
     * list of DataObjects. stored in the following structure:
-    * array([group][uniqueue-identifier] => DataObject-reference, 
-    *       [group-n][uniqueue-identifier-n] => DataObject-reference-n, [..])
+    * array([group][unique-identifier] => DataObject-reference, 
+    *       [group-n][unique-identifier-n] => DataObject-reference-n, [..])
     *
     **/
   static private $arrDataObjects = array(); 
@@ -129,7 +129,7 @@ class DataObjectPool {
     * @param $strIdentifier - the identifier to check
     *
     * @returns (boolean) true, if the identifier exists
-    * @returns (boolean) false, if the identifier do not exists
+    * @returns (boolean) false, if the identifier does not exist
     *
     **/
   public function exists(string $strIdentifier): bool {
@@ -148,7 +148,7 @@ class DataObjectPool {
     *
     * @returns (DataObject) - reference to the DataObject
     *
-    * returns a reference to the DataObject stored under the identifer
+    * returns a reference to the DataObject stored under the identifier
     *
     **/
   public function get(string $strIdentifier): DataObject {

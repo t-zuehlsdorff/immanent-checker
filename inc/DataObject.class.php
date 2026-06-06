@@ -35,7 +35,7 @@ class DataObject {
     * everything.
     * 
     * if optional data are given, they are passed to DataObject::add(), to be stored
-    * immediatley
+    * immediately
     *
     **/
   public function __construct(?callable $cloValidator = null, array $arrData = array()) {
@@ -114,7 +114,7 @@ class DataObject {
     * @param $strKey - the key of the value to delete
     * 
     * delete the value stored under the given key.
-    * if given key do not exists, nothing is done!
+    * if given key does not exist, nothing is done!
     *
     **/
   public function delete(string $strKey): void {
@@ -128,7 +128,7 @@ class DataObject {
     * @param $strKey - the key to check
     *
     * @returns (boolean) true, if key exists
-    * @returns (boolean) false, if key do not exists
+    * @returns (boolean) false, if key does not exist
     *
     * check if the given key exists
     *
