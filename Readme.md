@@ -45,6 +45,27 @@ The **Immanent Code Checker** makes it possible to check exactly these semantic
 relationships. Linting, style guide enforcement, and static code analysis are
 only a subset of its work.
 
+# Use Cases
+
+The tool is not limited to application source code. Because checks operate on
+project structures and parser output, the same model can be used to solve very
+different validation problems. Typical use cases include:
+
+* checking a PHP backend together with an HTML frontend
+* validating the structure of Makefiles in the FreeBSD ports tree
+* detecting deprecated code sections
+* enforcing conventions in configuration files
+* verifying that generated files follow the expected layout
+* checking whether every CLI command class is registered in a central registry
+* checking whether every migration has a matching rollback definition
+* checking whether every public API route is documented
+* checking whether configuration files only use allowed keys
+* checking whether SQL files use forbidden or deprecated constructs
+* checking whether plugin directories always contain a manifest, entry point,
+  and tests
+* checking whether translation keys used in templates exist in language files
+* checking whether Dockerfiles or Makefiles follow project-wide structure rules
+
 # How It Works
 
 To use the **Immanent Code Checker** effectively, it helps to understand how it
@@ -97,6 +118,12 @@ checks only operate on the project's own code.
 If a check needs to inspect the entire *own* project, it is executed here. For
 example, naming conventions for files and directories are checked in this
 section.
+
+This section is also useful for checks that need relationships across the
+project's own code. For example, a check can collect all functions found in the
+source code and verify that each of them is referenced by at least one test
+case. Third-party code remains excluded, so vendor functions do not affect the
+result.
 
 3. An entire directory
 
