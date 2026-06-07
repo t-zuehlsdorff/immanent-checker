@@ -7,10 +7,16 @@ const STAGE_PROJECT          = 'stage_project';
 const STAGE_DIRECTORY        = 'stage_directory';
 const STAGE_FILE             = 'stage_file';
 
+const EXPLORE_COMPLETE_PROJECT = 'explore_complete';
+const EXPLORE_PROJECT          = 'explore_project';
+const EXPLORE_DIRECTORY        = 'explore_directory';
+const EXPLORE_FILE             = 'explore_file';
+
 require_once __DIR__ . '/inc/DataObject.class.php';
 require_once __DIR__ . '/inc/DataObjectPool.class.php';
 
 require_once __DIR__ . '/inc/check/initPools.func.php';
 require_once __DIR__ . '/inc/check/register.func.php';
+require_once __DIR__ . '/inc/explore/project.func.php';
 
-\ImmanentCodeChecker\Check\initPools();
+Check\initPools();
