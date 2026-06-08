@@ -7,6 +7,7 @@ namespace ImmanentCodeChecker\Check;
   **/
 function all() : void {
 
+  project();
   directory();
   file();
   
