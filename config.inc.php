@@ -12,16 +12,22 @@ const EXPLORE_PROJECT          = 'explore_project';
 const EXPLORE_DIRECTORY        = 'explore_directory';
 const EXPLORE_FILE             = 'explore_file';
 
-const ERROR_FILE = 'error_file';
+const ERROR_DIRECTORY = 'error_directory';
+const ERROR_FILE      = 'error_file';
 
 require_once __DIR__ . '/inc/DataObject.class.php';
 require_once __DIR__ . '/inc/DataObjectPool.class.php';
 
 require_once __DIR__ . '/inc/check/initPools.func.php';
 require_once __DIR__ . '/inc/check/register.func.php';
+
+require_once __DIR__ . '/inc/error/initDirectoryPool.func.php';
 require_once __DIR__ . '/inc/error/initFilePool.func.php';
+require_once __DIR__ . '/inc/error/directory.func.php';
 require_once __DIR__ . '/inc/error/file.func.php';
+
 require_once __DIR__ . '/inc/explore/project.func.php';
 
 Check\initPools();
+Error\initDirectoryPool();
 Error\initFilePool();
