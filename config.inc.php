@@ -22,6 +22,8 @@ require_once __DIR__ . '/inc/DataObjectPool.class.php';
 
 require_once __DIR__ . '/inc/check/initPools.func.php';
 require_once __DIR__ . '/inc/check/register.func.php';
+require_once __DIR__ . '/inc/check/all.func.php';
+require_once __DIR__ . '/inc/check/file.func.php';
 
 require_once __DIR__ . '/inc/error/initDirectoryPool.func.php';
 require_once __DIR__ . '/inc/error/initFilePool.func.php';
