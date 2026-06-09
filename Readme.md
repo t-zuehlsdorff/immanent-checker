@@ -180,6 +180,41 @@ representation.
 A check reports violations through the checker API. It can report any number of
 violations during a single run.
 
+# Check Suites
+
+Checks are loaded through check suites. A check suite is a directory that
+contains the checks for a run. The suite may be small and only contain one
+registration file, but it may also be a complete project with its own source
+code, dependencies, tests, and documentation.
+
+The checker only needs one defined entry point from the suite. That entry point
+loads everything the suite needs and registers its checks through the checker
+API.
+
+For example, a suite can be structured like this:
+
+```text
+my-check-suite/
+  register.php
+  composer.json
+  vendor/
+  src/
+  tests/
+  Readme.md
+```
+
+The `register.php` file is responsible for preparing the suite and registering
+the checks:
+
+```php
+\ImmanentCodeChecker\Check\register(...);
+```
+
+This keeps the checker itself small. Complex checks and check collections can
+live in their own projects, with their own internal structure and their own
+tests. The checker only defines the run, the analysis stages, and the APIs used
+to register checks and report errors.
+
 # Parser
 
 The **Immanent Code Checker** is language-agnostic. It does not assume any
@@ -196,9 +231,14 @@ check needs a parser, it requires that parser and works with its output format.
 Accordingly, parsers make file contents understandable. Checks verify whether
 these contents meet the expectations of the project.
 
-In addition to built-in parsers, custom parsers can be registered. This makes it
-possible to check additional languages, configuration formats, or completely
-custom syntaxes.
+Parsers can be provided by the checker itself or by a check suite. Built-in
+parsers are useful for common formats. Suite parsers are useful for specialised
+formats, project-specific languages, framework conventions, or complex
+domain-specific analysis.
+
+Custom parsers can be registered by a suite. This makes it possible to check
+additional languages, configuration formats, or completely custom syntaxes
+without adding them to the checker core.
 
 It is possible to register multiple parsers for the same language. This is
 useful because different parsers produce different output formats. Depending on
