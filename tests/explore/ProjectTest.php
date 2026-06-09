@@ -130,3 +130,67 @@ function testProjectStoresFilePool() {
   }
 
 }
+
+/**
+  * Expect excluded files to remain in the complete-project pool and to be
+  * missing from the filtered project and file pools.
+  **/
+function testProjectExcludesFileFromFilteredPools() {
+
+  \ImmanentCodeChecker\Explore\project(EXPLORE_TEST_PROJECT_PATH,
+                                       array('Readme.md'));
+
+  $strProjectPath = realpath(EXPLORE_TEST_PROJECT_PATH);
+  $strReadmePath  = $strProjectPath . '/Readme.md';
+
+  $objCompleteProject = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_COMPLETE_PROJECT);
+  $objProject         = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_PROJECT);
+  $objFile            = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_FILE);
+
+  assertTrue($objCompleteProject->exists($strReadmePath));
+  assertFalse($objProject->exists($strReadmePath));
+  assertFalse($objFile->exists($strReadmePath));
+
+}
+
+/**
+  * Expect exclude patterns to be matched against project-relative paths.
+  **/
+function testProjectExcludesByRelativePathPattern() {
+
+  \ImmanentCodeChecker\Explore\project(EXPLORE_TEST_PROJECT_PATH,
+                                       array('src/*'));
+
+  $strProjectPath = realpath(EXPLORE_TEST_PROJECT_PATH);
+  $strSourcePath  = $strProjectPath . '/src';
+  $strTestPath    = $strProjectPath . '/src/Test.php';
+
+  $objProject = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_PROJECT);
+  $objFile    = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_FILE);
+
+  assertTrue($objProject->exists($strSourcePath));
+  assertFalse($objProject->exists($strTestPath));
+  assertFalse($objFile->exists($strTestPath));
+
+}
+
+/**
+  * Expect excluded directories to be missing from the filtered directory pool.
+  **/
+function testProjectExcludesDirectoryFromFilteredPools() {
+
+  \ImmanentCodeChecker\Explore\project(EXPLORE_TEST_PROJECT_PATH,
+                                       array('src'));
+
+  $strProjectPath = realpath(EXPLORE_TEST_PROJECT_PATH);
+  $strSourcePath  = $strProjectPath . '/src';
+
+  $objCompleteProject = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_COMPLETE_PROJECT);
+  $objProject         = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_PROJECT);
+  $objDirectory       = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_DIRECTORY);
+
+  assertTrue($objCompleteProject->exists($strSourcePath));
+  assertFalse($objProject->exists($strSourcePath));
+  assertFalse($objDirectory->exists($strSourcePath));
+
+}

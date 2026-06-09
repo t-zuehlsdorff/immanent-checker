@@ -3,9 +3,12 @@
 namespace ImmanentCodeChecker\Explore;
 
 /**
+  * @param $strProjectPath      - the project path to explore
+  * @param $arrExcludePatterns  - list of fnmatch patterns to exclude from the filtered project
+  *
   * Explore the complete project structure.
   **/
-function project(string $strProjectPath): void {
+function project(string $strProjectPath, array $arrExcludePatterns = array()): void {
 
   $strProjectPath = realpath($strProjectPath);
 
@@ -34,6 +37,17 @@ function project(string $strProjectPath): void {
 
     if(!$objCompleteProject->exists($arrEntry['full_path']))
       $objCompleteProject->add($arrEntry['full_path'], $arrEntry);
+
+    $boolExcluded = false;
+
+    foreach($arrExcludePatterns AS $strExcludePattern)
+      if(fnmatch($strExcludePattern, $arrEntry['relative_path']))
+        $boolExcluded = true;
+
+    // if path matches ANY exclude pattern, do not store it for project,
+    // directory or file stage
+    if($boolExcluded)
+      continue;
 
     if(!$objProject->exists($arrEntry['full_path']))
       $objProject->add($arrEntry['full_path'], $arrEntry);
