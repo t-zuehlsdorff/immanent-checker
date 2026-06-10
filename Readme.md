@@ -228,7 +228,7 @@ exploration and are matched against project-relative paths.
 Example:
 
 ```bash
-immanent-code-checker --suite /path/to/base-suite \
+bin/immanent-code-checker --suite /path/to/base-suite \
   --suite /path/to/project-suite \
   --exclude 'vendor/*' \
   --exclude 'node_modules/*' \

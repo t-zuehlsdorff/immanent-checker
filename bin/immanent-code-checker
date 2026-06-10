@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../config.inc.php';
+
+try {
+
+  \ImmanentCodeChecker\Cli\parseArguments($argv);
+  exit(0);
+
+} catch(\Throwable $objThrowable) {
+
+  fwrite(STDERR, $objThrowable->getMessage() . PHP_EOL);
+  exit(1);
+
+}
