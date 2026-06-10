@@ -22,7 +22,7 @@ function project(string $strProjectPath,
     if(!is_file($strRegisterFile))
       throw new \Exception ("Suite register file not found: '$strRegisterFile'");
 
-    require $strRegisterFile;
+    require_once $strRegisterFile;
 
   }
 

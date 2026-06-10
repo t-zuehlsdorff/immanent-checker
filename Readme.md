@@ -220,10 +220,13 @@ to register checks and report errors.
 The command line interface defines which suites and projects are part of a run.
 At least one suite and at least one project must be given. Both can be provided
 multiple times, which allows composing a run from several check suites and
-checking several project directories.
+running them for several project directories.
 
 Exclude patterns can be provided multiple times. They are passed to project
 exploration and are matched against project-relative paths.
+
+For every given project, the selected suites are loaded and all check stages are
+executed.
 
 Example:
 

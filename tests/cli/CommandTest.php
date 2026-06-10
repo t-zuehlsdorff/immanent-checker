@@ -10,7 +10,7 @@ const CLI_COMMAND = __DIR__ . '/../../bin/immanent-code-checker';
 function testCliCommandAcceptsValidArguments() {
 
   $strCommand = PHP_BINARY    . ' ' . escapeshellarg(CLI_COMMAND) .
-                ' --suite '   . escapeshellarg(__DIR__) .
+                ' --suite '   . escapeshellarg(__DIR__ . '/../run/test-data/suite') .
                 ' --exclude ' . escapeshellarg('vendor/*') .
                 ' --project ' . escapeshellarg(__DIR__ . '/../explore/test-data/project');
 
@@ -33,5 +33,21 @@ function testCliCommandRejectsInvalidArguments() {
 
   assertEquals($intExitCode, 1);
   assertTrue(count($arrOutput) > 0);
+
+}
+
+/**
+  * Expect the CLI command to run every given project with the selected suites.
+  **/
+function testCliCommandAcceptsMultipleProjects() {
+
+  $strCommand = PHP_BINARY    . ' ' . escapeshellarg(CLI_COMMAND) .
+                ' --suite '   . escapeshellarg(__DIR__ . '/../run/test-data/suite') .
+                ' --project ' . escapeshellarg(__DIR__ . '/../explore/test-data/project') .
+                ' --project ' . escapeshellarg(__DIR__ . '/../explore/test-data/project');
+
+  exec($strCommand, $arrOutput, $intExitCode);
+
+  assertEquals($intExitCode, 0);
 
 }

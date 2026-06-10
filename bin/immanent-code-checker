@@ -5,7 +5,13 @@ require_once __DIR__ . '/../config.inc.php';
 
 try {
 
-  \ImmanentCodeChecker\Cli\parseArguments($argv);
+  $arrArguments = \ImmanentCodeChecker\Cli\parseArguments($argv);
+
+  foreach($arrArguments['project'] AS $strProjectPath)
+    \ImmanentCodeChecker\Run\project($strProjectPath,
+                                     $arrArguments['suite'],
+                                     $arrArguments['exclude']);
+
   exit(0);
 
 } catch(\Throwable $objThrowable) {
