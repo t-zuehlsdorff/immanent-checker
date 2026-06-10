@@ -41,6 +41,8 @@ require_once __DIR__ . '/inc/error/project.func.php';
 
 require_once __DIR__ . '/inc/explore/project.func.php';
 
+require_once __DIR__ . '/inc/run/project.func.php';
+
 Check\initPools();
 Error\initDirectoryPool();
 Error\initFilePool();

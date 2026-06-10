@@ -235,6 +235,23 @@ bin/immanent-code-checker --suite /path/to/base-suite \
   --project /path/to/project
 ```
 
+# Project Runs
+
+A project run loads one or more check suites, explores one project directory
+with the given exclude patterns, and executes all check stages.
+
+The run API is intentionally small:
+
+```php
+\ImmanentCodeChecker\Run\project($strProjectPath,
+                                 $arrSuitePaths,
+                                 array('vendor/*', 'node_modules/*'));
+```
+
+Every suite directory must contain a `register.php` file. This file is loaded
+before the project is explored and is responsible for registering the checks
+that should run.
+
 # Parser
 
 The **Immanent Code Checker** is language-agnostic. It does not assume any
