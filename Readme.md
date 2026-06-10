@@ -215,6 +215,26 @@ live in their own projects, with their own internal structure and their own
 tests. The checker only defines the run, the analysis stages, and the APIs used
 to register checks and report errors.
 
+# CLI
+
+The command line interface defines which suites and projects are part of a run.
+At least one suite and at least one project must be given. Both can be provided
+multiple times, which allows composing a run from several check suites and
+checking several project directories.
+
+Exclude patterns can be provided multiple times. They are passed to project
+exploration and are matched against project-relative paths.
+
+Example:
+
+```bash
+immanent-code-checker --suite /path/to/base-suite \
+  --suite /path/to/project-suite \
+  --exclude 'vendor/*' \
+  --exclude 'node_modules/*' \
+  --project /path/to/project
+```
+
 # Parser
 
 The **Immanent Code Checker** is language-agnostic. It does not assume any

@@ -20,6 +20,8 @@ const ERROR_PROJECT          = 'error_project';
 require_once __DIR__ . '/inc/DataObject.class.php';
 require_once __DIR__ . '/inc/DataObjectPool.class.php';
 
+require_once __DIR__ . '/inc/cli/parseArguments.func.php';
+
 require_once __DIR__ . '/inc/check/initPools.func.php';
 require_once __DIR__ . '/inc/check/register.func.php';
 require_once __DIR__ . '/inc/check/all.func.php';
