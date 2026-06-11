@@ -324,7 +324,24 @@ result. The file checks are executed afterwards and read the prepared parser
 results.
 
 This keeps parsing separate from checking. A check does not parse the file
-itself. It only reads parser results that were prepared for the file.
+itself. It reads parser results that were prepared for the file through
+`Parser\get()`:
+
+```php
+$arrTokens = \ImmanentCodeChecker\Parser\get(\ImmanentCodeChecker\PARSER_PHP_TOKEN_GET_ALL);
+```
+
+The function takes the name of the registered parser and returns its result for
+the file currently being checked. A single file can be processed by multiple
+parsers. Each result is accessible independently by its parser name:
+
+```php
+$arrTokens = \ImmanentCodeChecker\Parser\get(\ImmanentCodeChecker\PARSER_PHP_TOKEN_GET_ALL);
+$arrCustom = \ImmanentCodeChecker\Parser\get('MY_CUSTOM_PARSER');
+```
+
+If no result exists for the given parser name, the parser either did not match
+the current file or the name is incorrect. Both cases cause an exception.
 
 Within a run, files are assumed not to change. Parser results are therefore
 read-only runtime data. This makes the model suitable for later optimisation:

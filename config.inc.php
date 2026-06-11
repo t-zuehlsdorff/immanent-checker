@@ -48,6 +48,7 @@ require_once __DIR__ . '/inc/explore/project.func.php';
 
 require_once __DIR__ . '/inc/parser/initPool.func.php';
 require_once __DIR__ . '/inc/parser/phpTokenGetAll.func.php';
+require_once __DIR__ . '/inc/parser/get.func.php';
 require_once __DIR__ . '/inc/parser/register.func.php';
 
 require_once __DIR__ . '/inc/run/project.func.php';
