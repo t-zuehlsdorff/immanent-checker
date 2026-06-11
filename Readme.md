@@ -204,11 +204,26 @@ my-check-suite/
 ```
 
 The `register.php` file is responsible for preparing the suite and registering
-the checks:
+the checks. It is executed by the checker when the suite is loaded.
+
+The file should contain only suite bootstrap and registration code. A typical
+`register.php` loads the suite's own dependencies first and then registers
+checks and, later, parsers:
 
 ```php
+<?php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
 \ImmanentCodeChecker\Check\register(...);
 ```
+
+The file must not start a run, explore a project, execute checks, or print
+output. Those actions are controlled by the checker. The suite only declares
+what it provides.
+
+The registration should stay direct and easy to inspect. Even complex suites
+should make it clear from `register.php` which checks are registered.
 
 This keeps the checker itself small. Complex checks and check collections can
 live in their own projects, with their own internal structure and their own
@@ -266,7 +281,8 @@ tree, a token stream, a list of metadata, or any other format that is useful for
 checks.
 
 Parsers are independent components. A check does not bring its own parser. If a
-check needs a parser, it requires that parser and works with its output format.
+check needs parser output, it declares that parser as a requirement and works
+with its output format.
 
 Accordingly, parsers make file contents understandable. Checks verify whether
 these contents meet the expectations of the project.
@@ -284,9 +300,19 @@ It is possible to register multiple parsers for the same language. This is
 useful because different parsers produce different output formats. Depending on
 the goal, one format or another may be better suited for implementing a check.
 
-Within a run, files are assumed not to change. If a check calls the same parser
-for the same file as another check before it, the parser may return the result
-it already created.
+For file checks, parser usage is prepared before the checks are executed. The
+file stage collects all parser requirements declared by the registered file
+checks. For each file, every required parser is executed once and stores its
+result. The file checks are executed afterwards and read the prepared parser
+results.
+
+This keeps parsing separate from checking. A check does not parse the file
+itself. It only reads parser results that were prepared for the file.
+
+Within a run, files are assumed not to change. Parser results are therefore
+read-only runtime data. This makes the model suitable for later optimisation:
+parser results can be cached per file, stored in shared memory, or reused by
+parallel check workers without changing the responsibility of checks.
 
 In general, parsers operate at file level. Everything that concerns project-wide
 relationships remains the responsibility of checks.
