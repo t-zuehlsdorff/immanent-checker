@@ -51,6 +51,11 @@ require_once __DIR__ . '/inc/parser/phpTokenGetAll.func.php';
 require_once __DIR__ . '/inc/parser/get.func.php';
 require_once __DIR__ . '/inc/parser/register.func.php';
 
+require_once __DIR__ . '/inc/output/collectProjectErrors.func.php';
+require_once __DIR__ . '/inc/output/collectDirectoryErrors.func.php';
+require_once __DIR__ . '/inc/output/collectFileErrors.func.php';
+require_once __DIR__ . '/inc/output/json.func.php';
+
 require_once __DIR__ . '/inc/run/project.func.php';
 
 Check\initPools();

@@ -12,7 +12,13 @@ try {
                                      $arrArguments['suite'],
                                      $arrArguments['exclude']);
 
-  exit(0);
+  $strOutput = \ImmanentCodeChecker\Output\json();
+
+  if($strOutput === '')
+    exit(0);
+
+  fwrite(STDOUT, $strOutput . PHP_EOL);
+  exit(1);
 
 } catch(\Throwable $objThrowable) {
 

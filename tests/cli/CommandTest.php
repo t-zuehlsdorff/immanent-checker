@@ -5,9 +5,10 @@ namespace APHPUnit\Testcases;
 const CLI_COMMAND = __DIR__ . '/../../bin/immanent-code-checker';
 
 /**
-  * Expect the CLI command to accept valid suite and project directories.
+  * Expect the CLI command to return exit code 1 and valid JSON when a suite
+  * reports errors.
   **/
-function testCliCommandAcceptsValidArguments() {
+function testCliCommandReturnsJsonAndExitCode1WhenErrorsExist() {
 
   $strCommand = PHP_BINARY    . ' ' . escapeshellarg(CLI_COMMAND) .
                 ' --suite '   . escapeshellarg(__DIR__ . '/../run/test-data/suite') .
@@ -16,7 +17,12 @@ function testCliCommandAcceptsValidArguments() {
 
   exec($strCommand, $arrOutput, $intExitCode);
 
-  assertEquals($intExitCode, 0);
+  $strJson    = implode("\n", $arrOutput);
+  $arrDecoded = json_decode($strJson, true);
+
+  assertEquals($intExitCode, 1);
+  assertEquals(json_last_error(), JSON_ERROR_NONE);
+  assertTrue(array_key_exists('errors', $arrDecoded));
 
 }
 
@@ -37,9 +43,10 @@ function testCliCommandRejectsInvalidArguments() {
 }
 
 /**
-  * Expect the CLI command to run every given project with the selected suites.
+  * Expect the CLI command to collect errors from multiple projects into one
+  * JSON output.
   **/
-function testCliCommandAcceptsMultipleProjects() {
+function testCliCommandCollectsErrorsFromMultipleProjects() {
 
   $strCommand = PHP_BINARY    . ' ' . escapeshellarg(CLI_COMMAND) .
                 ' --suite '   . escapeshellarg(__DIR__ . '/../run/test-data/suite') .
@@ -48,6 +55,11 @@ function testCliCommandAcceptsMultipleProjects() {
 
   exec($strCommand, $arrOutput, $intExitCode);
 
-  assertEquals($intExitCode, 0);
+  $strJson    = implode("\n", $arrOutput);
+  $arrDecoded = json_decode($strJson, true);
+
+  assertEquals($intExitCode, 1);
+  assertEquals(json_last_error(), JSON_ERROR_NONE);
+  assertTrue(count($arrDecoded['errors']['project']) >= 2);
 
 }
