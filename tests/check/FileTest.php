@@ -118,3 +118,54 @@ function testAllCallsFileChecks() {
   assertTrue(in_array($strProjectPath . '/src/Test.php', $arrErrorPaths));
 
 }
+
+/**
+  * Expect matching file parsers to run before file checks and to be discarded
+  * after the file stage.
+  **/
+function testFileRunsMatchingParsersAndDiscardsResults() {
+
+  $strCheckName   = 'FileRunsMatchingParsersAndDiscardsResults';
+  $strParserName  = 'FileRunsMatchingParsersAndDiscardsResultsParser' . uniqid();
+  $strProjectPath = realpath(FILE_CHECK_TEST_PROJECT_PATH);
+  $arrParsedFiles = array();
+
+  \ImmanentCodeChecker\Parser\register($strParserName,
+                                       \ImmanentCodeChecker\PARSER_TYPE_FILE,
+                                       function (string $strFilePath) use (&$arrParsedFiles) {
+
+                                         $arrParsedFiles[] = $strFilePath;
+                                         return basename($strFilePath);
+
+                                       },
+                                       'src/*.php');
+
+  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+                                      $strCheckName,
+                                      function (\ImmanentCodeChecker\DataObject $objFile) use ($strCheckName, $strParserName) {
+
+                                        if($objFile->get('relative_path') !== 'src/Test.php')
+                                          return;
+
+                                        $objParserResults = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_RESULT);
+                                        $arrParserResult  = $objParserResults->get($strParserName)->getAll();
+
+                                        \ImmanentCodeChecker\Error\file($strCheckName,
+                                                                        $arrParserResult['result'],
+                                                                        $objFile);
+
+                                      });
+
+  \ImmanentCodeChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
+  \ImmanentCodeChecker\Check\file();
+
+  $arrErrors       = getFileErrorsByCheck($strCheckName);
+  $arrError        = $arrErrors[0]->getAll();
+  $objParserResult = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_RESULT);
+
+  assertEquals($arrParsedFiles, array($strProjectPath . '/src/Test.php'));
+  assertEquals(count($arrErrors), 1);
+  assertEquals($arrError['message'], 'Test.php');
+  assertEquals($objParserResult->getAll(), array());
+
+}

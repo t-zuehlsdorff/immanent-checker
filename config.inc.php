@@ -18,6 +18,7 @@ const ERROR_FILE             = 'error_file';
 const ERROR_PROJECT          = 'error_project';
 
 const PARSER_REGISTRY  = 'parser_registry';
+const PARSER_RESULT    = 'parser_result';
 const PARSER_TYPE_FILE = 'parser_file';
 const PARSER_PHP_TOKEN_GET_ALL = 'PHP_TOKEN_GET_ALL';
 
