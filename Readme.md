@@ -296,17 +296,22 @@ Custom parsers can be registered by a suite. This makes it possible to check
 additional languages, configuration formats, or completely custom syntaxes
 without adding them to the checker core.
 
-Parser registration requires a unique parser name, a parser type, and a
-callback. For now, only file parsers are supported. A file parser callback
-receives the path to the file it should parse.
+Parser registration requires a unique parser name, a parser type, a callback,
+and optionally a pattern. For now, only file parsers are supported. A file
+parser callback receives the path to the file it should parse.
 
 ```php
 \ImmanentCodeChecker\Parser\register('my.parser',
                                      \ImmanentCodeChecker\PARSER_TYPE_FILE,
                                      function (string $strFilePath) {
                                        return file_get_contents($strFilePath);
-                                     });
+                                     },
+                                     '*');
 ```
+
+The pattern is matched against project-relative paths using PHP's `fnmatch()`
+semantics, which are similar to common shell-style glob patterns. If no pattern
+is given, `*` is used and the parser may apply to every file.
 
 It is possible to register multiple parsers for the same language. This is
 useful because different parsers produce different output formats. Depending on
@@ -346,6 +351,9 @@ The parser is registered automatically:
 ```php
 \ImmanentCodeChecker\PARSER_PHP_TOKEN_GET_ALL
 ```
+
+It is registered as a file parser with the pattern `*.php`, so it only applies
+to project-relative PHP file paths.
 
 It can also be referenced by its literal parser name:
 

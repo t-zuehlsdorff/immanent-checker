@@ -9,7 +9,8 @@ namespace ImmanentCodeChecker\Parser;
   *
   * array('name'     => string,
   *       'type'     => string,
-  *       'callback' => callable)
+  *       'callback' => callable,
+  *       'pattern'  => string)
   *
   * The name identifies the parser inside the registry. It must be a non-empty
   * string without leading or trailing whitespace.
@@ -19,6 +20,10 @@ namespace ImmanentCodeChecker\Parser;
   * should parse.
   *
   * The callback contains the parser implementation and must be callable.
+  *
+  * The pattern limits the parser to project-relative file paths. It must be a
+  * non-empty string without leading or trailing whitespace. The default pattern
+  * is '*', which means that the parser may apply to every file.
   **/
 function initPool(): void {
 
@@ -48,6 +53,18 @@ function initPool(): void {
       return false;
 
     if(!is_callable($arrData['callback']))
+      return false;
+
+    if(!array_key_exists('pattern', $arrData))
+      return false;
+
+    if(!is_string($arrData['pattern']))
+      return false;
+
+    if(strlen(trim($arrData['pattern'])) < 1)
+      return false;
+
+    if($arrData['pattern'] !== trim($arrData['pattern']))
       return false;
 
     return true;

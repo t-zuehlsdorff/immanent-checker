@@ -5,7 +5,8 @@ namespace APHPUnit\Testcases;
 require_once __DIR__ . '/../../config.inc.php';
 
 /**
-  * Expect a registered parser to be stored with name, type, and callback.
+  * Expect a registered parser to be stored with name, type, callback, and the
+  * default pattern.
   **/
 function testParserRegisterStoresParserInRegistry() {
 
@@ -22,6 +23,27 @@ function testParserRegisterStoresParserInRegistry() {
   assertEquals($arrParser['name'],     $strName);
   assertEquals($arrParser['type'],     \ImmanentCodeChecker\PARSER_TYPE_FILE);
   assertEquals($arrParser['callback'], $cloCallback);
+  assertEquals($arrParser['pattern'],  '*');
+
+}
+
+/**
+  * Expect parser registration to store an explicit file pattern.
+  **/
+function testParserRegisterStoresExplicitPattern() {
+
+  $strName     = 'ParserRegisterStoresExplicitPattern' . uniqid();
+  $cloCallback = function (string $strFilePath) { return $strFilePath; };
+
+  \ImmanentCodeChecker\Parser\register($strName,
+                                       \ImmanentCodeChecker\PARSER_TYPE_FILE,
+                                       $cloCallback,
+                                       '*.php');
+
+  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_REGISTRY);
+  $arrParser   = $objRegistry->get($strName)->getAll();
+
+  assertEquals($arrParser['pattern'], '*.php');
 
 }
 
@@ -94,6 +116,42 @@ function testParserRegisterRejectsUnknownType() {
     \ImmanentCodeChecker\Parser\register('ParserRegisterRejectsUnknownType' . uniqid(),
                                          'unknown-parser-type',
                                          function (string $strFilePath) { return $strFilePath; });
+
+  };
+
+  expectException($cloTest, "\Exception");
+
+}
+
+/**
+  * Expect parser registration to reject empty patterns.
+  **/
+function testParserRegisterRejectsEmptyPattern() {
+
+  $cloTest = function () {
+
+    \ImmanentCodeChecker\Parser\register('ParserRegisterRejectsEmptyPattern' . uniqid(),
+                                         \ImmanentCodeChecker\PARSER_TYPE_FILE,
+                                         function (string $strFilePath) { return $strFilePath; },
+                                         '');
+
+  };
+
+  expectException($cloTest, "\Exception");
+
+}
+
+/**
+  * Expect parser registration to reject patterns with surrounding whitespace.
+  **/
+function testParserRegisterRejectsPatternWithSurroundingWhitespace() {
+
+  $cloTest = function () {
+
+    \ImmanentCodeChecker\Parser\register('ParserRegisterRejectsPatternWithSurroundingWhitespace' . uniqid(),
+                                         \ImmanentCodeChecker\PARSER_TYPE_FILE,
+                                         function (string $strFilePath) { return $strFilePath; },
+                                         ' *.php ');
 
   };
 

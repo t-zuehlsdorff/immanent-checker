@@ -60,4 +60,5 @@ Error\initProjectPool();
 Parser\initPool();
 Parser\register(PARSER_PHP_TOKEN_GET_ALL,
                 PARSER_TYPE_FILE,
-                '\ImmanentCodeChecker\Parser\phpTokenGetAll');
+                '\ImmanentCodeChecker\Parser\phpTokenGetAll',
+                '*.php');

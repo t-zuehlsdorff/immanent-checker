@@ -16,6 +16,7 @@ function testPhpTokenGetAllParserIsRegistered() {
 
   assertEquals($arrParser['name'], \ImmanentCodeChecker\PARSER_PHP_TOKEN_GET_ALL);
   assertEquals($arrParser['type'], \ImmanentCodeChecker\PARSER_TYPE_FILE);
+  assertEquals($arrParser['pattern'], '*.php');
   assertTrue(is_callable($arrParser['callback']));
 
 }
