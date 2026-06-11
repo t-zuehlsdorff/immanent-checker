@@ -17,6 +17,9 @@ const ERROR_DIRECTORY        = 'error_directory';
 const ERROR_FILE             = 'error_file';
 const ERROR_PROJECT          = 'error_project';
 
+const PARSER_REGISTRY  = 'parser_registry';
+const PARSER_TYPE_FILE = 'parser_file';
+
 require_once __DIR__ . '/inc/DataObject.class.php';
 require_once __DIR__ . '/inc/DataObjectPool.class.php';
 
@@ -41,9 +44,13 @@ require_once __DIR__ . '/inc/error/project.func.php';
 
 require_once __DIR__ . '/inc/explore/project.func.php';
 
+require_once __DIR__ . '/inc/parser/initPool.func.php';
+require_once __DIR__ . '/inc/parser/register.func.php';
+
 require_once __DIR__ . '/inc/run/project.func.php';
 
 Check\initPools();
 Error\initDirectoryPool();
 Error\initFilePool();
 Error\initProjectPool();
+Parser\initPool();

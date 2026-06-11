@@ -296,6 +296,18 @@ Custom parsers can be registered by a suite. This makes it possible to check
 additional languages, configuration formats, or completely custom syntaxes
 without adding them to the checker core.
 
+Parser registration requires a unique parser name, a parser type, and a
+callback. For now, only file parsers are supported. A file parser callback
+receives the path to the file it should parse.
+
+```php
+\ImmanentCodeChecker\Parser\register('php.token_get_all',
+                                     \ImmanentCodeChecker\PARSER_TYPE_FILE,
+                                     function (string $strFilePath) {
+                                       return token_get_all(file_get_contents($strFilePath));
+                                     });
+```
+
 It is possible to register multiple parsers for the same language. This is
 useful because different parsers produce different output formats. Depending on
 the goal, one format or another may be better suited for implementing a check.
