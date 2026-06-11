@@ -301,10 +301,10 @@ callback. For now, only file parsers are supported. A file parser callback
 receives the path to the file it should parse.
 
 ```php
-\ImmanentCodeChecker\Parser\register('php.token_get_all',
+\ImmanentCodeChecker\Parser\register('my.parser',
                                      \ImmanentCodeChecker\PARSER_TYPE_FILE,
                                      function (string $strFilePath) {
-                                       return token_get_all(file_get_contents($strFilePath));
+                                       return file_get_contents($strFilePath);
                                      });
 ```
 
@@ -328,3 +328,61 @@ parallel check workers without changing the responsibility of checks.
 
 In general, parsers operate at file level. Everything that concerns project-wide
 relationships remains the responsibility of checks.
+
+## Built-In Parser: PHP_TOKEN_GET_ALL
+
+`PHP_TOKEN_GET_ALL` is a built-in file parser for PHP source files. It is based
+on PHP's [`token_get_all()`](https://www.php.net/manual/en/function.token-get-all.php)
+function and uses PHP's official
+[`token_name()`](https://www.php.net/manual/en/function.token-name.php) function
+to resolve token ids to readable token names.
+
+The PHP manual documents the available parser tokens in the
+[List of Parser Tokens](https://www.php.net/manual/en/tokens.php). Those token
+names are the names used in this parser output for PHP tokens.
+
+The parser is registered automatically:
+
+```php
+\ImmanentCodeChecker\PARSER_PHP_TOKEN_GET_ALL
+```
+
+It can also be referenced by its literal parser name:
+
+```php
+PHP_TOKEN_GET_ALL
+```
+
+The parser normalizes PHP's native token stream. Native `token_get_all()` returns
+PHP tokens as arrays, but single-character tokens such as `(`, `)`, `{`, `}`,
+`;`, or `=` as plain strings. `PHP_TOKEN_GET_ALL` converts both forms into one
+consistent structure:
+
+```php
+array('type'  => int,
+      'name'  => string,
+      'value' => string,
+      'line'  => int)
+```
+
+For PHP tokens, `type` is the original integer token id and `name` is the
+official token name:
+
+```php
+array('type'  => T_STRING,
+      'name'  => 'T_STRING',
+      'value' => 'strtoupper',
+      'line'  => 3)
+```
+
+For single-character tokens, `type` is `-1` and `name` is the character itself:
+
+```php
+array('type'  => -1,
+      'name'  => '(',
+      'value' => '(',
+      'line'  => 3)
+```
+
+This allows checks to iterate over one token list without special handling for
+PHP's mixed token formats.

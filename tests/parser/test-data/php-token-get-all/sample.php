@@ -1,0 +1,3 @@
+<?php
+
+$strValue = strtoupper('test');
