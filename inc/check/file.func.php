@@ -45,9 +45,12 @@ function file() : void {
     // Excecute all checks
     foreach($objChecks->getAll() AS $objCheck) {
 
+      if(!fnmatch($objCheck->get('pattern'), $objFile->get('relative_path')))
+        continue;
+
       $cloCallback = $objCheck->get('callback');
       $cloCallback($objFile);
-      
+
     }
 
     // remove parsings from pool - we do not need them anymore :)

@@ -120,6 +120,41 @@ function testAllCallsFileChecks() {
 }
 
 /**
+  * Expect a file check with a pattern to only be called for matching files.
+  **/
+function testFileCheckWithPatternOnlyRunsForMatchingFiles() {
+
+  $strCheckName   = 'FileCheckWithPatternOnlyRunsForMatchingFiles';
+  $strProjectPath = realpath(FILE_CHECK_TEST_PROJECT_PATH);
+
+  \ImmanentCodeChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
+
+  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+                                      $strCheckName,
+                                      function (\ImmanentCodeChecker\DataObject $objFile) use ($strCheckName) {
+
+                                        \ImmanentCodeChecker\Error\file($strCheckName,
+                                                                        'expected file check error',
+                                                                        $objFile);
+
+                                      },
+                                      '',
+                                      '*.php');
+
+  \ImmanentCodeChecker\Check\file();
+
+  $arrErrors     = getFileErrorsByCheck($strCheckName);
+  $arrErrorPaths = array();
+
+  foreach($arrErrors AS $objError)
+    $arrErrorPaths[] = $objError->get('full_path');
+
+  assertEquals(count($arrErrors), 1);
+  assertEquals($arrErrorPaths, array($strProjectPath . '/src/Test.php'));
+
+}
+
+/**
   * Expect matching file parsers to run before file checks and to be discarded
   * after the file stage.
   **/

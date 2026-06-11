@@ -94,6 +94,37 @@ function testDirectoryPassesDirectoryDataObjectToCallback() {
 }
 
 /**
+  * Expect a directory check with a pattern to only be called for matching
+  * directories.
+  **/
+function testDirectoryCheckWithPatternOnlyRunsForMatchingDirectories() {
+
+  $strCheckName   = 'DirectoryCheckWithPatternOnlyRunsForMatchingDirectories';
+  $strProjectPath = realpath(DIRECTORY_CHECK_TEST_PROJECT_PATH);
+
+  \ImmanentCodeChecker\Explore\project(DIRECTORY_CHECK_TEST_PROJECT_PATH);
+
+  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_DIRECTORY,
+                                      $strCheckName,
+                                      function (\ImmanentCodeChecker\DataObject $objDirectory) use ($strCheckName) {
+
+                                        \ImmanentCodeChecker\Error\directory($strCheckName,
+                                                                             'expected directory check error',
+                                                                             $objDirectory);
+
+                                      },
+                                      '',
+                                      'nonexistent*');
+
+  \ImmanentCodeChecker\Check\directory();
+
+  $arrErrors = getDirectoryErrorsByCheck($strCheckName);
+
+  assertEquals(count($arrErrors), 0);
+
+}
+
+/**
   * Expect all() to execute registered directory checks.
   **/
 function testAllCallsDirectoryChecks() {

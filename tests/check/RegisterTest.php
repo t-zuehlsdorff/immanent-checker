@@ -191,3 +191,135 @@ function testStageRegistryRejectsDescriptionWithSurroundingWhitespace() {
   expectException($cloTest, "\Exception");
 
 }
+
+/**
+  * Expect the default pattern to be '*' when no pattern is provided.
+  **/
+function testRegisterUsesDefaultPatternWhenNoneGiven() {
+
+  $strStage    = \ImmanentCodeChecker\STAGE_FILE;
+  $strName     = 'RegisterUsesDefaultPattern' . uniqid();
+  $cloCallback = function () { return true; };
+
+  \ImmanentCodeChecker\Check\register($strStage, $strName, $cloCallback);
+
+  $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);
+  $arrCheck    = $objRegistry->get($strName)->getAll();
+
+  assertEquals($arrCheck['pattern'], '*');
+
+}
+
+/**
+  * Expect an explicit pattern to be stored in the check registration.
+  **/
+function testRegisterStoresExplicitPattern() {
+
+  $strStage    = \ImmanentCodeChecker\STAGE_FILE;
+  $strName     = 'RegisterStoresExplicitPattern' . uniqid();
+  $cloCallback = function () { return true; };
+
+  \ImmanentCodeChecker\Check\register($strStage, $strName, $cloCallback, '', '*.php');
+
+  $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);
+  $arrCheck    = $objRegistry->get($strName)->getAll();
+
+  assertEquals($arrCheck['pattern'], '*.php');
+
+}
+
+/**
+  * Expect patterns to be accepted for directory checks.
+  **/
+function testRegisterAcceptsPatternForDirectoryStage() {
+
+  $strStage    = \ImmanentCodeChecker\STAGE_DIRECTORY;
+  $strName     = 'RegisterAcceptsPatternForDirectory' . uniqid();
+  $cloCallback = function () { return true; };
+
+  \ImmanentCodeChecker\Check\register($strStage, $strName, $cloCallback, '', 'src/*');
+
+  $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);
+  $arrCheck    = $objRegistry->get($strName)->getAll();
+
+  assertEquals($arrCheck['pattern'], 'src/*');
+
+}
+
+/**
+  * Expect registration to reject a non-default pattern for the complete project
+  * stage.
+  **/
+function testRegisterRejectsPatternForCompleteProjectStage() {
+
+  $cloTest = function () {
+
+    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_COMPLETE_PROJECT,
+                                        'RegisterRejectsPatternForCompleteProject' . uniqid(),
+                                        function () { return true; },
+                                        '',
+                                        '*.php');
+
+  };
+
+  expectException($cloTest, "\Exception");
+
+}
+
+/**
+  * Expect registration to reject a non-default pattern for the project stage.
+  **/
+function testRegisterRejectsPatternForProjectStage() {
+
+  $cloTest = function () {
+
+    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_PROJECT,
+                                        'RegisterRejectsPatternForProject' . uniqid(),
+                                        function () { return true; },
+                                        '',
+                                        '*.php');
+
+  };
+
+  expectException($cloTest, "\Exception");
+
+}
+
+/**
+  * Expect the stage registry validator to reject empty patterns.
+  **/
+function testStageRegistryRejectsEmptyPattern() {
+
+  $cloTest = function () {
+
+    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+                                        'RegisterRejectsEmptyPattern' . uniqid(),
+                                        function () { return true; },
+                                        '',
+                                        '');
+
+  };
+
+  expectException($cloTest, "\Exception");
+
+}
+
+/**
+  * Expect the stage registry validator to reject patterns with surrounding
+  * whitespace.
+  **/
+function testStageRegistryRejectsPatternWithSurroundingWhitespace() {
+
+  $cloTest = function () {
+
+    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+                                        'RegisterRejectsPatternWhitespace' . uniqid(),
+                                        function () { return true; },
+                                        '',
+                                        ' *.php ');
+
+  };
+
+  expectException($cloTest, "\Exception");
+
+}
