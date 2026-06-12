@@ -39,7 +39,7 @@ function register(string $strStage, string $strName, callable $cloCallback, stri
   $arrProjectStages = array(\ImmanentCodeChecker\STAGE_COMPLETE_PROJECT,
                             \ImmanentCodeChecker\STAGE_PROJECT);
 
-  if(in_array($strStage, $arrProjectStages) && $strPattern !== '*')
+  if(in_array($strStage, $arrProjectStages) && '*' !== $strPattern)
     throw new \Exception ("Patterns are only supported for file and directory checks, not for: '$strStage'");
 
   $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);

@@ -25,7 +25,7 @@ function collectProjectErrors(string $strPool) : array {
 
     $strDetails = $objError->get('details');
 
-    if($strDetails !== '')
+    if('' !== $strDetails)
       $arrError['details'] = json_decode($strDetails, true);
 
     $arrErrors[] = $arrError;

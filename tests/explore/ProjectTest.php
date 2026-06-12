@@ -113,7 +113,7 @@ function testProjectStoresFilePool() {
 
   $strProjectPath = realpath(EXPLORE_TEST_PROJECT_PATH);
 
-  $arrExpected = array($strProjectPath . '/Readme.md'     => 'Readme.md',
+  $arrExpected = array($strProjectPath . '/Readme.md'    => 'Readme.md',
                        $strProjectPath . '/src/Test.php' => 'src/Test.php');
 
   $objPool = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_FILE);

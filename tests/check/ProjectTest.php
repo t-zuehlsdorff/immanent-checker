@@ -13,7 +13,7 @@ function registerProjectErrorCheck(string $strCheckName): void {
 
   \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_PROJECT,
                                       $strCheckName,
-                                      function (\ImmanentCodeChecker\DataObjectPool $objProject) use ($strCheckName) {
+                                      function () use ($strCheckName) {
 
                                         \ImmanentCodeChecker\Error\project($strCheckName,
                                                                            'expected project check error',
