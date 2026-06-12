@@ -3,6 +3,42 @@
 
 require_once __DIR__ . '/../config.inc.php';
 
+if(count($argv) < 2 || in_array('--help', $argv) || in_array('-h', $argv)) {
+
+  fwrite(STDOUT, <<<'HELP'
+Immanent Checker — static analysis for PHP projects
+
+Usage:
+  immanent-checker --suite <path> --project <path> [options]
+
+Required:
+  --suite <path>      Path to a check suite directory. Can be given multiple times.
+  --project <path>    Path to the project to analyse. Can be given multiple times.
+
+Options:
+  --exclude <pattern> Exclude files matching an fnmatch pattern. Can be given multiple times.
+  --format <format>   Output format: json (default), gcc
+  --help, -h          Show this help and exit
+
+Output formats:
+  json    Structured JSON on stdout (default)
+  gcc     One error per line: file:line: [check] message
+
+Exit codes:
+  0       No errors found
+  1       Errors found or runtime error
+
+Examples:
+  immanent-checker --suite ./checks --project ./src
+  immanent-checker --suite ./checks --project ./src --format gcc
+  immanent-checker --suite ./checks --project ./src --exclude "vendor/*"
+
+HELP
+  );
+  exit(0);
+
+}
+
 try {
 
   $arrArguments = \ImmanentChecker\Cli\parseArguments($argv);
@@ -19,7 +55,7 @@ try {
   else
     $strOutput = \ImmanentChecker\Output\json();
 
-  if($strOutput === '')
+  if('' === $strOutput)
     exit(0);
 
   fwrite(STDOUT, $strOutput . PHP_EOL);
