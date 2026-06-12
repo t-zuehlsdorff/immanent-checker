@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker;
+namespace ImmanentChecker;
 
 const STAGE_COMPLETE_PROJECT = 'stage_complete';
 const STAGE_PROJECT          = 'stage_project';
@@ -67,5 +67,5 @@ Error\initProjectPool();
 Parser\initPool();
 Parser\register(PARSER_PHP_TOKEN_GET_ALL,
                 PARSER_TYPE_FILE,
-                '\ImmanentCodeChecker\Parser\phpTokenGetAll',
+                '\ImmanentChecker\Parser\phpTokenGetAll',
                 '*.php');

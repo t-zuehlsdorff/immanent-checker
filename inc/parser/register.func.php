@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Parser;
+namespace ImmanentChecker\Parser;
 
 /**
   * @param $strName     - the unique name of the parser
@@ -23,7 +23,7 @@ function register(string $strName,
                   callable $cloCallback,
                   string $strPattern = '*'): void {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_REGISTRY);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\PARSER_REGISTRY);
 
   if($objRegistry->exists($strName))
     throw new \Exception ("Parser-Name already exists, use a unique one. Given: '$strName'");

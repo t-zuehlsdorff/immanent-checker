@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Parser;
+namespace ImmanentChecker\Parser;
 
 /**
   * Initialize the parser registry pool with its validator.
@@ -27,7 +27,7 @@ namespace ImmanentCodeChecker\Parser;
   **/
 function initPool(): void {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_REGISTRY);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\PARSER_REGISTRY);
 
   $objRegistry->setValidator(function(array $arrData): bool {
 
@@ -46,7 +46,7 @@ function initPool(): void {
     if(!array_key_exists('type', $arrData))
       return false;
 
-    if($arrData['type'] !== \ImmanentCodeChecker\PARSER_TYPE_FILE)
+    if($arrData['type'] !== \ImmanentChecker\PARSER_TYPE_FILE)
       return false;
 
     if(!array_key_exists('callback', $arrData))

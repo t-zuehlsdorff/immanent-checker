@@ -12,11 +12,11 @@ const RUN_TEST_SUITE_PATH   = __DIR__ . '/test-data/suite';
   **/
 function testRunProjectLoadsSuiteExploresProjectAndExecutesChecks() {
 
-  \ImmanentCodeChecker\Run\project(RUN_TEST_PROJECT_PATH,
+  \ImmanentChecker\Run\project(RUN_TEST_PROJECT_PATH,
                                    array(RUN_TEST_SUITE_PATH),
                                    array('Readme.md'));
 
-  $objErrors = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_PROJECT);
+  $objErrors = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_PROJECT);
   $arrErrors = $objErrors->getAll();
 
   assertEquals(count($arrErrors), 1);
@@ -37,7 +37,7 @@ function testRunProjectRejectsSuiteWithoutRegisterFile() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Run\project(RUN_TEST_PROJECT_PATH,
+    \ImmanentChecker\Run\project(RUN_TEST_PROJECT_PATH,
                                      array(__DIR__),
                                      array());
 

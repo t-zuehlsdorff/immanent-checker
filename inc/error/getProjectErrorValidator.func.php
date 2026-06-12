@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Error;
+namespace ImmanentChecker\Error;
 
 /**
   * Return the validator used for project-like errors.

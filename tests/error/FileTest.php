@@ -7,9 +7,9 @@ require_once __DIR__ . '/../../config.inc.php';
 /**
   * Return a file DataObject that can be used as file error context.
   **/
-function createFileErrorContext(): \ImmanentCodeChecker\DataObject {
+function createFileErrorContext(): \ImmanentChecker\DataObject {
 
-  return new \ImmanentCodeChecker\DataObject(null,
+  return new \ImmanentChecker\DataObject(null,
                                              array('full_path'     => __FILE__,
                                                    'relative_path' => 'tests/error/FileTest.php',
                                                    'permissions'   => fileperms(__FILE__)));
@@ -23,12 +23,12 @@ function testFileErrorStoresExpectedData() {
 
   $objFile = createFileErrorContext();
 
-  \ImmanentCodeChecker\Error\file('FileErrorStoresExpectedData',
+  \ImmanentChecker\Error\file('FileErrorStoresExpectedData',
                                   'expected file error',
                                   $objFile,
                                   12);
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_FILE);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_FILE);
 
   $arrAllErrors = $objRegistry->getAll();
 
@@ -52,11 +52,11 @@ function testFileErrorAllowsMissingLine() {
 
   $objFile = createFileErrorContext();
 
-  \ImmanentCodeChecker\Error\file('FileErrorAllowsMissingLine',
+  \ImmanentChecker\Error\file('FileErrorAllowsMissingLine',
                                   'expected file error without line',
                                   $objFile);
 
-  $objRegistry  = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_FILE);
+  $objRegistry  = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_FILE);
   $arrAllErrors = $objRegistry->getAll();
 
   assertEquals(count($arrAllErrors), 1);
@@ -78,7 +78,7 @@ function testFileErrorRejectsEmptyCheckName() {
 
   $cloTest = function () use ($objFile) {
 
-    \ImmanentCodeChecker\Error\file('', 'expected file error', $objFile);
+    \ImmanentChecker\Error\file('', 'expected file error', $objFile);
 
   };
 
@@ -95,7 +95,7 @@ function testFileErrorRejectsEmptyMessage() {
 
   $cloTest = function () use ($objFile) {
 
-    \ImmanentCodeChecker\Error\file('FileErrorRejectsEmptyMessage', '', $objFile);
+    \ImmanentChecker\Error\file('FileErrorRejectsEmptyMessage', '', $objFile);
 
   };
 
@@ -112,7 +112,7 @@ function testFileErrorRejectsInvalidLine() {
 
   $cloTest = function () use ($objFile) {
 
-    \ImmanentCodeChecker\Error\file('FileErrorRejectsInvalidLine',
+    \ImmanentChecker\Error\file('FileErrorRejectsInvalidLine',
                                     'expected file error',
                                     $objFile,
                                     0);

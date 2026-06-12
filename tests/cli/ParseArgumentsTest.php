@@ -12,7 +12,7 @@ function testParseArgumentsStoresExpectedOptions() {
 
   $strProjectPath = __DIR__ . '/../explore/test-data/project';
 
-  $arrOptions = \ImmanentCodeChecker\Cli\parseArguments(array('immanent-code-checker',
+  $arrOptions = \ImmanentChecker\Cli\parseArguments(array('immanent-checker',
                                                               '--suite',
                                                               __DIR__,
                                                               '--exclude',
@@ -35,7 +35,7 @@ function testParseArgumentsAllowsMultipleSuitesAndProjects() {
 
   $strProjectPath = __DIR__ . '/../explore/test-data/project';
 
-  $arrOptions = \ImmanentCodeChecker\Cli\parseArguments(array('immanent-code-checker',
+  $arrOptions = \ImmanentChecker\Cli\parseArguments(array('immanent-checker',
                                                               '--suite',
                                                               __DIR__,
                                                               '--suite',
@@ -57,7 +57,7 @@ function testParseArgumentsRejectsMissingProjectPath() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Cli\parseArguments(array('immanent-code-checker',
+    \ImmanentChecker\Cli\parseArguments(array('immanent-checker',
                                                   '--suite',
                                                   __DIR__));
 
@@ -74,7 +74,7 @@ function testParseArgumentsRejectsMissingSuitePath() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Cli\parseArguments(array('immanent-code-checker',
+    \ImmanentChecker\Cli\parseArguments(array('immanent-checker',
                                                   '--project',
                                                   __DIR__ . '/../explore/test-data/project'));
 
@@ -91,7 +91,7 @@ function testParseArgumentsRejectsUnknownOption() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Cli\parseArguments(array('immanent-code-checker',
+    \ImmanentChecker\Cli\parseArguments(array('immanent-checker',
                                                   '--suite',
                                                   __DIR__,
                                                   '--unknown',
@@ -112,7 +112,7 @@ function testParseArgumentsRejectsMissingOptionValue() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Cli\parseArguments(array('immanent-code-checker',
+    \ImmanentChecker\Cli\parseArguments(array('immanent-checker',
                                                   '--suite',
                                                   __DIR__,
                                                   '--project'));
@@ -130,7 +130,7 @@ function testParseArgumentsRejectsSuitePathThatIsNotDirectory() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Cli\parseArguments(array('immanent-code-checker',
+    \ImmanentChecker\Cli\parseArguments(array('immanent-checker',
                                                   '--suite',
                                                   __FILE__,
                                                   '--project',
@@ -149,7 +149,7 @@ function testParseArgumentsRejectsProjectPathThatIsNotDirectory() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Cli\parseArguments(array('immanent-code-checker',
+    \ImmanentChecker\Cli\parseArguments(array('immanent-checker',
                                                   '--suite',
                                                   __DIR__,
                                                   '--project',

@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Error;
+namespace ImmanentChecker\Error;
 
 /**
   * @param $strCheck     - the name of the check that reported the error
@@ -21,9 +21,9 @@ namespace ImmanentCodeChecker\Error;
   **/
 function directory(string $strCheck,
                    string $strMessage,
-                   \ImmanentCodeChecker\DataObject $objDirectory): void {
+                   \ImmanentChecker\DataObject $objDirectory): void {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_DIRECTORY);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_DIRECTORY);
 
   $arrError = array('check'         => $strCheck,
                     'message'       => $strMessage,

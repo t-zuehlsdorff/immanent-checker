@@ -1,8 +1,8 @@
 [[_TOC_]]
 
-# Immanent Code Checker
+# Immanent Checker
 
-The Immanent Code Checker:
+The Immanent Checker:
 
 * reduces the need of writing Unit-Tests while improving source code quality
 * allows linting the whole project by being language agnostic
@@ -17,7 +17,7 @@ but they address very different needs and have typical limitations at the same
 time.
 
 This separation is arbitrary and obstructive. It created a gap that the
-**Immanent Code Checker** closes: checking expected code and expected code behavior.
+**Immanent Checker** closes: checking expected code and expected code behavior.
 
 To illustrate this, consider a simple example: reading a file at a given path.
 Every good function will check:
@@ -41,7 +41,7 @@ high performance or low development effort may intentionally choose not to
 follow such a rule. Other projects may always value it, except for a specific
 hotspot that receives special handling.
 
-The **Immanent Code Checker** makes it possible to check exactly these semantic
+The **Immanent Checker** makes it possible to check exactly these semantic
 relationships. Linting, style guide enforcement, and static code analysis are
 only a subset of its work.
 
@@ -68,7 +68,7 @@ different validation problems. Typical use cases include:
 
 # How It Works
 
-To use the **Immanent Code Checker** effectively, it helps to understand how it
+To use the **Immanent Checker** effectively, it helps to understand how it
 works. A project run consists of 3 phases, which are described below:
 
 ## 1. Exploration
@@ -139,7 +139,7 @@ of a single file is sufficient is checked here.
 ## 3. Result
 
 All findings from the analysis are collected in the result. It is important to
-understand that the **Immanent Code Checker** has an absolute quality standard.
+understand that the **Immanent Checker** has an absolute quality standard.
 When a check is defined, every violation is considered an **error**.
 
 Severity levels are intentionally not part of this model. An enabled check
@@ -215,7 +215,7 @@ checks and, later, parsers:
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-\ImmanentCodeChecker\Check\register(...);
+\ImmanentChecker\Check\register(...);
 ```
 
 The file must not start a run, explore a project, execute checks, or print
@@ -246,7 +246,7 @@ executed.
 Example:
 
 ```bash
-bin/immanent-code-checker --suite /path/to/base-suite \
+bin/immanent-checker --suite /path/to/base-suite \
   --suite /path/to/project-suite \
   --exclude 'vendor/*' \
   --exclude 'node_modules/*' \
@@ -261,7 +261,7 @@ with the given exclude patterns, and executes all check stages.
 The run API is intentionally small:
 
 ```php
-\ImmanentCodeChecker\Run\project($strProjectPath,
+\ImmanentChecker\Run\project($strProjectPath,
                                  $arrSuitePaths,
                                  array('vendor/*', 'node_modules/*'));
 ```
@@ -272,7 +272,7 @@ that should run.
 
 # Parser
 
-The **Immanent Code Checker** is language-agnostic. It does not assume any
+The **Immanent Checker** is language-agnostic. It does not assume any
 specific language and is explicitly designed to check multiple languages within
 a project by using parsers.
 
@@ -301,8 +301,8 @@ and optionally a pattern. For now, only file parsers are supported. A file
 parser callback receives the path to the file it should parse.
 
 ```php
-\ImmanentCodeChecker\Parser\register('my.parser',
-                                     \ImmanentCodeChecker\PARSER_TYPE_FILE,
+\ImmanentChecker\Parser\register('my.parser',
+                                     \ImmanentChecker\PARSER_TYPE_FILE,
                                      function (string $strFilePath) {
                                        return file_get_contents($strFilePath);
                                      },
@@ -328,7 +328,7 @@ itself. It reads parser results that were prepared for the file through
 `Parser\get()`:
 
 ```php
-$arrTokens = \ImmanentCodeChecker\Parser\get(\ImmanentCodeChecker\PARSER_PHP_TOKEN_GET_ALL);
+$arrTokens = \ImmanentChecker\Parser\get(\ImmanentChecker\PARSER_PHP_TOKEN_GET_ALL);
 ```
 
 The function takes the name of the registered parser and returns its result for
@@ -336,8 +336,8 @@ the file currently being checked. A single file can be processed by multiple
 parsers. Each result is accessible independently by its parser name:
 
 ```php
-$arrTokens = \ImmanentCodeChecker\Parser\get(\ImmanentCodeChecker\PARSER_PHP_TOKEN_GET_ALL);
-$arrCustom = \ImmanentCodeChecker\Parser\get('MY_CUSTOM_PARSER');
+$arrTokens = \ImmanentChecker\Parser\get(\ImmanentChecker\PARSER_PHP_TOKEN_GET_ALL);
+$arrCustom = \ImmanentChecker\Parser\get('MY_CUSTOM_PARSER');
 ```
 
 If no result exists for the given parser name, the parser either did not match
@@ -366,7 +366,7 @@ names are the names used in this parser output for PHP tokens.
 The parser is registered automatically:
 
 ```php
-\ImmanentCodeChecker\PARSER_PHP_TOKEN_GET_ALL
+\ImmanentChecker\PARSER_PHP_TOKEN_GET_ALL
 ```
 
 It is registered as a file parser with the pattern `*.php`, so it only applies

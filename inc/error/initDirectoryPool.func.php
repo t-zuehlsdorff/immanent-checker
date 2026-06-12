@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Error;
+namespace ImmanentChecker\Error;
 
 /**
   * Initialize the directory-error pool with its validator.
@@ -86,7 +86,7 @@ function initDirectoryPool(): void {
 
   };
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_DIRECTORY);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_DIRECTORY);
   $objRegistry->setValidator($cloDirectoryErrorValidator);
 
 }

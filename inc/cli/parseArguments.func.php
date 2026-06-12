@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Cli;
+namespace ImmanentChecker\Cli;
 
 /**
   * @param $arrArguments - command line arguments including the command name

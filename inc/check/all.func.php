@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Check;
+namespace ImmanentChecker\Check;
 
 /**
   * Execute all registered checks for all supported analysis stages.

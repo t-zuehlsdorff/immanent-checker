@@ -10,12 +10,12 @@ require_once __DIR__ . '/../../config.inc.php';
   **/
 function testCompleteProjectErrorStoresExpectedData() {
 
-  \ImmanentCodeChecker\Error\completeProject('CompleteProjectErrorStoresExpectedData',
+  \ImmanentChecker\Error\completeProject('CompleteProjectErrorStoresExpectedData',
                                              'expected complete project error',
                                              array('vendor/autoload.php'),
                                              '{"directory":"vendor"}');
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_COMPLETE_PROJECT);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_COMPLETE_PROJECT);
 
   $arrAllErrors = $objRegistry->getAll();
 
@@ -36,10 +36,10 @@ function testCompleteProjectErrorStoresExpectedData() {
   **/
 function testCompleteProjectErrorAllowsMissingFilesAndDetails() {
 
-  \ImmanentCodeChecker\Error\completeProject('CompleteProjectErrorAllowsMissingFilesAndDetails',
+  \ImmanentChecker\Error\completeProject('CompleteProjectErrorAllowsMissingFilesAndDetails',
                                              'expected complete project error');
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_COMPLETE_PROJECT);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_COMPLETE_PROJECT);
 
   $arrAllErrors = $objRegistry->getAll();
 
@@ -60,7 +60,7 @@ function testCompleteProjectErrorRejectsEmptyCheckName() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\completeProject('', 'expected complete project error');
+    \ImmanentChecker\Error\completeProject('', 'expected complete project error');
 
   };
 
@@ -75,7 +75,7 @@ function testCompleteProjectErrorRejectsEmptyMessage() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\completeProject('CompleteProjectErrorRejectsEmptyMessage', '');
+    \ImmanentChecker\Error\completeProject('CompleteProjectErrorRejectsEmptyMessage', '');
 
   };
 
@@ -90,7 +90,7 @@ function testCompleteProjectErrorRejectsEmptyFileReference() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\completeProject('CompleteProjectErrorRejectsEmptyFileReference',
+    \ImmanentChecker\Error\completeProject('CompleteProjectErrorRejectsEmptyFileReference',
                                                'expected complete project error',
                                                array(''));
 
@@ -108,7 +108,7 @@ function testCompleteProjectErrorRejectsFileReferenceWithSurroundingWhitespace()
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\completeProject('CompleteProjectErrorRejectsFileReferenceWithSurroundingWhitespace',
+    \ImmanentChecker\Error\completeProject('CompleteProjectErrorRejectsFileReferenceWithSurroundingWhitespace',
                                                'expected complete project error',
                                                array(' vendor/autoload.php '));
 
@@ -125,7 +125,7 @@ function testCompleteProjectErrorRejectsInvalidJsonDetails() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\completeProject('CompleteProjectErrorRejectsInvalidJsonDetails',
+    \ImmanentChecker\Error\completeProject('CompleteProjectErrorRejectsInvalidJsonDetails',
                                                'expected complete project error',
                                                array(),
                                                '{invalid');
@@ -144,7 +144,7 @@ function testCompleteProjectErrorRejectsJsonDetailsWithSurroundingWhitespace() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\completeProject('CompleteProjectErrorRejectsJsonDetailsWithSurroundingWhitespace',
+    \ImmanentChecker\Error\completeProject('CompleteProjectErrorRejectsJsonDetailsWithSurroundingWhitespace',
                                                'expected complete project error',
                                                array(),
                                                ' {"directory":"vendor"} ');

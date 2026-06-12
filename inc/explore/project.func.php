@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Explore;
+namespace ImmanentChecker\Explore;
 
 /**
   * @param $strProjectPath      - the project path to explore
@@ -18,10 +18,10 @@ function project(string $strProjectPath, array $arrExcludePatterns = array()): v
   if(!is_dir($strProjectPath))
     throw new \Exception ("Project path is not a directory: '$strProjectPath'");
 
-  $objCompleteProject = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_COMPLETE_PROJECT);
-  $objProject         = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_PROJECT);
-  $objDirectory       = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_DIRECTORY);
-  $objFile            = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_FILE);
+  $objCompleteProject = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\EXPLORE_COMPLETE_PROJECT);
+  $objProject         = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\EXPLORE_PROJECT);
+  $objDirectory       = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\EXPLORE_DIRECTORY);
+  $objFile            = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\EXPLORE_FILE);
 
   $objProjectDir = new \RecursiveDirectoryIterator($strProjectPath,
                                                   \FilesystemIterator::SKIP_DOTS);

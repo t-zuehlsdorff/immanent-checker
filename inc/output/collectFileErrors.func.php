@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Output;
+namespace ImmanentChecker\Output;
 
 /**
   * @return array - list of file errors
@@ -9,7 +9,7 @@ namespace ImmanentCodeChecker\Output;
   **/
 function collectFileErrors() : array {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_FILE);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_FILE);
   $arrErrors   = array();
 
   foreach($objRegistry->getAll() AS $objError) {

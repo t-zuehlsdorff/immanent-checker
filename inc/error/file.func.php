@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Error;
+namespace ImmanentChecker\Error;
 
 /**
   * @param $strCheck   - the name of the check that reported the error
@@ -23,10 +23,10 @@ namespace ImmanentCodeChecker\Error;
   **/
 function file(string $strCheck,
               string $strMessage,
-              \ImmanentCodeChecker\DataObject $objFile,
+              \ImmanentChecker\DataObject $objFile,
               ?int   $intLine = null): void {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_FILE);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_FILE);
 
   $arrError = array('check'         => $strCheck,
                     'message'       => $strMessage,

@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Error;
+namespace ImmanentChecker\Error;
 
 /**
   * @param $strCheck   - the name of the check that reported the error
@@ -25,7 +25,7 @@ function completeProject(string $strCheck,
                          array  $arrFiles = array(),
                          string $strDetails = ''): void {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_COMPLETE_PROJECT);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_COMPLETE_PROJECT);
 
   $arrError = array('check'   => $strCheck,
                     'message' => $strMessage,

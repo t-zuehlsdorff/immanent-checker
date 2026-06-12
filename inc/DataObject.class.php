@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker;
+namespace ImmanentChecker;
 
 /**
   * a DataObject is a generic object

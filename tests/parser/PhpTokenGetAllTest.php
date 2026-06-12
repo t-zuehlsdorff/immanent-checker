@@ -11,11 +11,11 @@ const PHP_TOKEN_GET_ALL_TEST_FILE = __DIR__ . '/test-data/php-token-get-all/samp
   **/
 function testPhpTokenGetAllParserIsRegistered() {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_REGISTRY);
-  $arrParser   = $objRegistry->get(\ImmanentCodeChecker\PARSER_PHP_TOKEN_GET_ALL)->getAll();
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\PARSER_REGISTRY);
+  $arrParser   = $objRegistry->get(\ImmanentChecker\PARSER_PHP_TOKEN_GET_ALL)->getAll();
 
-  assertEquals($arrParser['name'], \ImmanentCodeChecker\PARSER_PHP_TOKEN_GET_ALL);
-  assertEquals($arrParser['type'], \ImmanentCodeChecker\PARSER_TYPE_FILE);
+  assertEquals($arrParser['name'], \ImmanentChecker\PARSER_PHP_TOKEN_GET_ALL);
+  assertEquals($arrParser['type'], \ImmanentChecker\PARSER_TYPE_FILE);
   assertEquals($arrParser['pattern'], '*.php');
   assertTrue(is_callable($arrParser['callback']));
 
@@ -26,7 +26,7 @@ function testPhpTokenGetAllParserIsRegistered() {
   **/
 function testPhpTokenGetAllParserNormalizesPhpTokens() {
 
-  $arrTokens = \ImmanentCodeChecker\Parser\phpTokenGetAll(PHP_TOKEN_GET_ALL_TEST_FILE);
+  $arrTokens = \ImmanentChecker\Parser\phpTokenGetAll(PHP_TOKEN_GET_ALL_TEST_FILE);
   $arrToken  = $arrTokens[0];
 
   assertEquals($arrToken['type'],  T_OPEN_TAG);
@@ -42,7 +42,7 @@ function testPhpTokenGetAllParserNormalizesPhpTokens() {
   **/
 function testPhpTokenGetAllParserNormalizesSingleCharacterTokens() {
 
-  $arrTokens = \ImmanentCodeChecker\Parser\phpTokenGetAll(PHP_TOKEN_GET_ALL_TEST_FILE);
+  $arrTokens = \ImmanentChecker\Parser\phpTokenGetAll(PHP_TOKEN_GET_ALL_TEST_FILE);
   $arrFound  = null;
 
   foreach($arrTokens AS $arrToken)
@@ -62,7 +62,7 @@ function testPhpTokenGetAllParserNormalizesSingleCharacterTokens() {
   **/
 function testPhpTokenGetAllParserPreservesTokenOrder() {
 
-  $arrTokens = \ImmanentCodeChecker\Parser\phpTokenGetAll(PHP_TOKEN_GET_ALL_TEST_FILE);
+  $arrTokens = \ImmanentChecker\Parser\phpTokenGetAll(PHP_TOKEN_GET_ALL_TEST_FILE);
   $arrValues = array();
   $arrNames  = array();
 

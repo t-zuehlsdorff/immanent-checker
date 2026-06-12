@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Parser;
+namespace ImmanentChecker\Parser;
 
 /**
   * @param $strFilePath - path to the PHP file to parse

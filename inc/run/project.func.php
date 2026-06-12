@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Run;
+namespace ImmanentChecker\Run;
 
 /**
   * @param $strProjectPath     - the project directory to check
@@ -26,7 +26,7 @@ function project(string $strProjectPath,
 
   }
 
-  \ImmanentCodeChecker\Explore\project($strProjectPath, $arrExcludePatterns);
-  \ImmanentCodeChecker\Check\all();
+  \ImmanentChecker\Explore\project($strProjectPath, $arrExcludePatterns);
+  \ImmanentChecker\Check\all();
 
 }

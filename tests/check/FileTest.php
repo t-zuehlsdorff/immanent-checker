@@ -11,11 +11,11 @@ const FILE_CHECK_TEST_PROJECT_PATH = __DIR__ . '/../explore/test-data/project';
   **/
 function registerFileErrorCheck(string $strCheckName): void {
 
-  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+  \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_FILE,
                                       $strCheckName,
-                                      function (\ImmanentCodeChecker\DataObject $objFile) use ($strCheckName) {
+                                      function (\ImmanentChecker\DataObject $objFile) use ($strCheckName) {
 
-                                        \ImmanentCodeChecker\Error\file($strCheckName,
+                                        \ImmanentChecker\Error\file($strCheckName,
                                                                         'expected file check error',
                                                                         $objFile);
 
@@ -28,7 +28,7 @@ function registerFileErrorCheck(string $strCheckName): void {
   **/
 function getFileErrorsByCheck(string $strCheckName): array {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_FILE);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_FILE);
   $arrErrors   = array();
 
   foreach($objRegistry->getAll() AS $objError)
@@ -47,10 +47,10 @@ function testFileCallsRegisteredCheckForEveryExploredFile() {
   $strCheckName   = 'FileCallsRegisteredCheckForEveryExploredFile';
   $strProjectPath = realpath(FILE_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
   registerFileErrorCheck($strCheckName);
 
-  \ImmanentCodeChecker\Check\file();
+  \ImmanentChecker\Check\file();
 
   $arrErrors        = getFileErrorsByCheck($strCheckName);
   $arrExpectedPaths = array($strProjectPath . '/Readme.md',
@@ -76,10 +76,10 @@ function testFilePassesFileDataObjectToCallback() {
   $strCheckName   = 'FilePassesFileDataObjectToCallback';
   $strProjectPath = realpath(FILE_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
   registerFileErrorCheck($strCheckName);
 
-  \ImmanentCodeChecker\Check\file();
+  \ImmanentChecker\Check\file();
 
   $arrErrors     = getFileErrorsByCheck($strCheckName);
   $strReadmePath = $strProjectPath . '/Readme.md';
@@ -103,10 +103,10 @@ function testAllCallsFileChecks() {
   $strCheckName  = 'AllCallsFileChecks';
   $strProjectPath = realpath(FILE_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
   registerFileErrorCheck($strCheckName);
 
-  \ImmanentCodeChecker\Check\all();
+  \ImmanentChecker\Check\all();
 
   $arrErrors     = getFileErrorsByCheck($strCheckName);
   $arrErrorPaths = array();
@@ -127,13 +127,13 @@ function testFileCheckWithPatternOnlyRunsForMatchingFiles() {
   $strCheckName   = 'FileCheckWithPatternOnlyRunsForMatchingFiles';
   $strProjectPath = realpath(FILE_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+  \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_FILE,
                                       $strCheckName,
-                                      function (\ImmanentCodeChecker\DataObject $objFile) use ($strCheckName) {
+                                      function (\ImmanentChecker\DataObject $objFile) use ($strCheckName) {
 
-                                        \ImmanentCodeChecker\Error\file($strCheckName,
+                                        \ImmanentChecker\Error\file($strCheckName,
                                                                         'expected file check error',
                                                                         $objFile);
 
@@ -141,7 +141,7 @@ function testFileCheckWithPatternOnlyRunsForMatchingFiles() {
                                       '',
                                       '*.php');
 
-  \ImmanentCodeChecker\Check\file();
+  \ImmanentChecker\Check\file();
 
   $arrErrors     = getFileErrorsByCheck($strCheckName);
   $arrErrorPaths = array();
@@ -165,8 +165,8 @@ function testFileRunsMatchingParsersAndDiscardsResults() {
   $strProjectPath = realpath(FILE_CHECK_TEST_PROJECT_PATH);
   $arrParsedFiles = array();
 
-  \ImmanentCodeChecker\Parser\register($strParserName,
-                                       \ImmanentCodeChecker\PARSER_TYPE_FILE,
+  \ImmanentChecker\Parser\register($strParserName,
+                                       \ImmanentChecker\PARSER_TYPE_FILE,
                                        function (string $strFilePath) use (&$arrParsedFiles) {
 
                                          $arrParsedFiles[] = $strFilePath;
@@ -175,28 +175,28 @@ function testFileRunsMatchingParsersAndDiscardsResults() {
                                        },
                                        'src/*.php');
 
-  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+  \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_FILE,
                                       $strCheckName,
-                                      function (\ImmanentCodeChecker\DataObject $objFile) use ($strCheckName, $strParserName) {
+                                      function (\ImmanentChecker\DataObject $objFile) use ($strCheckName, $strParserName) {
 
                                         if($objFile->get('relative_path') !== 'src/Test.php')
                                           return;
 
-                                        $objParserResults = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_RESULT);
+                                        $objParserResults = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\PARSER_RESULT);
                                         $arrParserResult  = $objParserResults->get($strParserName)->getAll();
 
-                                        \ImmanentCodeChecker\Error\file($strCheckName,
+                                        \ImmanentChecker\Error\file($strCheckName,
                                                                         $arrParserResult['result'],
                                                                         $objFile);
 
                                       });
 
-  \ImmanentCodeChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
-  \ImmanentCodeChecker\Check\file();
+  \ImmanentChecker\Explore\project(FILE_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Check\file();
 
   $arrErrors       = getFileErrorsByCheck($strCheckName);
   $arrError        = $arrErrors[0]->getAll();
-  $objParserResult = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_RESULT);
+  $objParserResult = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\PARSER_RESULT);
 
   assertEquals($arrParsedFiles, array($strProjectPath . '/src/Test.php'));
   assertEquals(count($arrErrors), 1);

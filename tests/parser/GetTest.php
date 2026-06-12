@@ -12,13 +12,13 @@ function testParserGetReturnsStoredResult() {
   $strParserName = 'ParserGetReturnsStoredResult' . uniqid();
   $arrExpected   = array('token' => 'test');
 
-  $objResults = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_RESULT);
+  $objResults = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\PARSER_RESULT);
   $objResults->add($strParserName,
                    array('name'      => $strParserName,
                          'full_path' => '/tmp/test.php',
                          'result'    => $arrExpected));
 
-  $arrResult = \ImmanentCodeChecker\Parser\get($strParserName);
+  $arrResult = \ImmanentChecker\Parser\get($strParserName);
 
   assertEquals($arrResult, $arrExpected);
 
@@ -34,7 +34,7 @@ function testParserGetThrowsForUnknownParser() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Parser\get('ParserGetThrowsForUnknownParser' . uniqid());
+    \ImmanentChecker\Parser\get('ParserGetThrowsForUnknownParser' . uniqid());
 
   };
 
@@ -53,8 +53,8 @@ function testParserGetWorksInsideFileCheckAndFailsAfter() {
   $strProjectPath = realpath(__DIR__ . '/../explore/test-data/project');
   $arrCaptured    = array();
 
-  \ImmanentCodeChecker\Parser\register($strParserName,
-                                       \ImmanentCodeChecker\PARSER_TYPE_FILE,
+  \ImmanentChecker\Parser\register($strParserName,
+                                       \ImmanentChecker\PARSER_TYPE_FILE,
                                        function (string $strFilePath) {
 
                                          return 'parsed:' . basename($strFilePath);
@@ -62,25 +62,25 @@ function testParserGetWorksInsideFileCheckAndFailsAfter() {
                                        },
                                        'src/*.php');
 
-  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+  \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_FILE,
                                       $strCheckName,
-                                      function (\ImmanentCodeChecker\DataObject $objFile) use ($strCheckName, $strParserName, &$arrCaptured) {
+                                      function (\ImmanentChecker\DataObject $objFile) use ($strCheckName, $strParserName, &$arrCaptured) {
 
                                         if($objFile->get('relative_path') !== 'src/Test.php')
                                           return;
 
-                                        $arrCaptured[] = \ImmanentCodeChecker\Parser\get($strParserName);
+                                        $arrCaptured[] = \ImmanentChecker\Parser\get($strParserName);
 
                                       });
 
-  \ImmanentCodeChecker\Explore\project(__DIR__ . '/../explore/test-data/project');
-  \ImmanentCodeChecker\Check\file();
+  \ImmanentChecker\Explore\project(__DIR__ . '/../explore/test-data/project');
+  \ImmanentChecker\Check\file();
 
   assertEquals($arrCaptured, array('parsed:Test.php'));
 
   $cloTest = function () use ($strParserName) {
 
-    \ImmanentCodeChecker\Parser\get($strParserName);
+    \ImmanentChecker\Parser\get($strParserName);
 
   };
 

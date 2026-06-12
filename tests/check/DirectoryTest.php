@@ -12,11 +12,11 @@ const DIRECTORY_CHECK_TEST_PROJECT_PATH = __DIR__ . '/../explore/test-data/proje
   **/
 function registerDirectoryErrorCheck(string $strCheckName): void {
 
-  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_DIRECTORY,
+  \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_DIRECTORY,
                                       $strCheckName,
-                                      function (\ImmanentCodeChecker\DataObject $objDirectory) use ($strCheckName) {
+                                      function (\ImmanentChecker\DataObject $objDirectory) use ($strCheckName) {
 
-                                        \ImmanentCodeChecker\Error\directory($strCheckName,
+                                        \ImmanentChecker\Error\directory($strCheckName,
                                                                              'expected directory check error',
                                                                              $objDirectory);
 
@@ -29,7 +29,7 @@ function registerDirectoryErrorCheck(string $strCheckName): void {
   **/
 function getDirectoryErrorsByCheck(string $strCheckName): array {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_DIRECTORY);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_DIRECTORY);
   $arrErrors   = array();
 
   foreach($objRegistry->getAll() AS $objError)
@@ -48,10 +48,10 @@ function testDirectoryCallsRegisteredCheckForEveryExploredDirectory() {
   $strCheckName   = 'DirectoryCallsRegisteredCheckForEveryExploredDirectory';
   $strProjectPath = realpath(DIRECTORY_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Explore\project(DIRECTORY_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Explore\project(DIRECTORY_CHECK_TEST_PROJECT_PATH);
   registerDirectoryErrorCheck($strCheckName);
 
-  \ImmanentCodeChecker\Check\directory();
+  \ImmanentChecker\Check\directory();
 
   $arrErrors        = getDirectoryErrorsByCheck($strCheckName);
   $arrExpectedPaths = array($strProjectPath . '/src');
@@ -74,10 +74,10 @@ function testDirectoryPassesDirectoryDataObjectToCallback() {
   $strCheckName   = 'DirectoryPassesDirectoryDataObjectToCallback';
   $strProjectPath = realpath(DIRECTORY_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Explore\project(DIRECTORY_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Explore\project(DIRECTORY_CHECK_TEST_PROJECT_PATH);
   registerDirectoryErrorCheck($strCheckName);
 
-  \ImmanentCodeChecker\Check\directory();
+  \ImmanentChecker\Check\directory();
 
   $arrErrors     = getDirectoryErrorsByCheck($strCheckName);
   $strSourcePath = $strProjectPath . '/src';
@@ -102,13 +102,13 @@ function testDirectoryCheckWithPatternOnlyRunsForMatchingDirectories() {
   $strCheckName   = 'DirectoryCheckWithPatternOnlyRunsForMatchingDirectories';
   $strProjectPath = realpath(DIRECTORY_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Explore\project(DIRECTORY_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Explore\project(DIRECTORY_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_DIRECTORY,
+  \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_DIRECTORY,
                                       $strCheckName,
-                                      function (\ImmanentCodeChecker\DataObject $objDirectory) use ($strCheckName) {
+                                      function (\ImmanentChecker\DataObject $objDirectory) use ($strCheckName) {
 
-                                        \ImmanentCodeChecker\Error\directory($strCheckName,
+                                        \ImmanentChecker\Error\directory($strCheckName,
                                                                              'expected directory check error',
                                                                              $objDirectory);
 
@@ -116,7 +116,7 @@ function testDirectoryCheckWithPatternOnlyRunsForMatchingDirectories() {
                                       '',
                                       'nonexistent*');
 
-  \ImmanentCodeChecker\Check\directory();
+  \ImmanentChecker\Check\directory();
 
   $arrErrors = getDirectoryErrorsByCheck($strCheckName);
 
@@ -132,10 +132,10 @@ function testAllCallsDirectoryChecks() {
   $strCheckName   = 'AllCallsDirectoryChecks';
   $strProjectPath = realpath(DIRECTORY_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Explore\project(DIRECTORY_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Explore\project(DIRECTORY_CHECK_TEST_PROJECT_PATH);
   registerDirectoryErrorCheck($strCheckName);
 
-  \ImmanentCodeChecker\Check\all();
+  \ImmanentChecker\Check\all();
 
   $arrErrors     = getDirectoryErrorsByCheck($strCheckName);
   $arrErrorPaths = array();

@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Output;
+namespace ImmanentChecker\Output;
 
 /**
   * @param $strPool - the error pool constant to collect from
@@ -14,7 +14,7 @@ namespace ImmanentCodeChecker\Output;
   **/
 function collectProjectErrors(string $strPool) : array {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strPool);
+  $objRegistry = new \ImmanentChecker\DataObjectPool($strPool);
   $arrErrors   = array();
 
   foreach($objRegistry->getAll() AS $objError) {

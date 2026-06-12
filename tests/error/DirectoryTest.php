@@ -7,9 +7,9 @@ require_once __DIR__ . '/../../config.inc.php';
 /**
   * Return a directory DataObject that can be used as directory error context.
   **/
-function createDirectoryErrorContext(): \ImmanentCodeChecker\DataObject {
+function createDirectoryErrorContext(): \ImmanentChecker\DataObject {
 
-  return new \ImmanentCodeChecker\DataObject(null,
+  return new \ImmanentChecker\DataObject(null,
                                              array('full_path'     => __DIR__,
                                                    'relative_path' => 'tests/error',
                                                    'permissions'   => fileperms(__DIR__)));
@@ -23,11 +23,11 @@ function testDirectoryErrorStoresExpectedData() {
 
   $objDirectory = createDirectoryErrorContext();
 
-  \ImmanentCodeChecker\Error\directory('DirectoryErrorStoresExpectedData',
+  \ImmanentChecker\Error\directory('DirectoryErrorStoresExpectedData',
                                        'expected directory error',
                                        $objDirectory);
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_DIRECTORY);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_DIRECTORY);
 
   $arrAllErrors = $objRegistry->getAll();
 
@@ -52,7 +52,7 @@ function testDirectoryErrorRejectsEmptyCheckName() {
 
   $cloTest = function () use ($objDirectory) {
 
-    \ImmanentCodeChecker\Error\directory('', 'expected directory error', $objDirectory);
+    \ImmanentChecker\Error\directory('', 'expected directory error', $objDirectory);
 
   };
 
@@ -69,7 +69,7 @@ function testDirectoryErrorRejectsEmptyMessage() {
 
   $cloTest = function () use ($objDirectory) {
 
-    \ImmanentCodeChecker\Error\directory('DirectoryErrorRejectsEmptyMessage', '', $objDirectory);
+    \ImmanentChecker\Error\directory('DirectoryErrorRejectsEmptyMessage', '', $objDirectory);
 
   };
 

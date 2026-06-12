@@ -13,15 +13,15 @@ function testParserRegisterStoresParserInRegistry() {
   $strName     = 'ParserRegisterStoresParserInRegistry' . uniqid();
   $cloCallback = function (string $strFilePath) { return $strFilePath; };
 
-  \ImmanentCodeChecker\Parser\register($strName,
-                                       \ImmanentCodeChecker\PARSER_TYPE_FILE,
+  \ImmanentChecker\Parser\register($strName,
+                                       \ImmanentChecker\PARSER_TYPE_FILE,
                                        $cloCallback);
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_REGISTRY);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\PARSER_REGISTRY);
   $arrParser   = $objRegistry->get($strName)->getAll();
 
   assertEquals($arrParser['name'],     $strName);
-  assertEquals($arrParser['type'],     \ImmanentCodeChecker\PARSER_TYPE_FILE);
+  assertEquals($arrParser['type'],     \ImmanentChecker\PARSER_TYPE_FILE);
   assertEquals($arrParser['callback'], $cloCallback);
   assertEquals($arrParser['pattern'],  '*');
 
@@ -35,12 +35,12 @@ function testParserRegisterStoresExplicitPattern() {
   $strName     = 'ParserRegisterStoresExplicitPattern' . uniqid();
   $cloCallback = function (string $strFilePath) { return $strFilePath; };
 
-  \ImmanentCodeChecker\Parser\register($strName,
-                                       \ImmanentCodeChecker\PARSER_TYPE_FILE,
+  \ImmanentChecker\Parser\register($strName,
+                                       \ImmanentChecker\PARSER_TYPE_FILE,
                                        $cloCallback,
                                        '*.php');
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_REGISTRY);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\PARSER_REGISTRY);
   $arrParser   = $objRegistry->get($strName)->getAll();
 
   assertEquals($arrParser['pattern'], '*.php');
@@ -55,14 +55,14 @@ function testParserRegisterRejectsDuplicateName() {
   $strName     = 'ParserRegisterRejectsDuplicateName' . uniqid();
   $cloCallback = function (string $strFilePath) { return $strFilePath; };
 
-  \ImmanentCodeChecker\Parser\register($strName,
-                                       \ImmanentCodeChecker\PARSER_TYPE_FILE,
+  \ImmanentChecker\Parser\register($strName,
+                                       \ImmanentChecker\PARSER_TYPE_FILE,
                                        $cloCallback);
 
   $cloTest = function () use ($strName, $cloCallback) {
 
-    \ImmanentCodeChecker\Parser\register($strName,
-                                         \ImmanentCodeChecker\PARSER_TYPE_FILE,
+    \ImmanentChecker\Parser\register($strName,
+                                         \ImmanentChecker\PARSER_TYPE_FILE,
                                          $cloCallback);
 
   };
@@ -78,8 +78,8 @@ function testParserRegisterRejectsEmptyName() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Parser\register('',
-                                         \ImmanentCodeChecker\PARSER_TYPE_FILE,
+    \ImmanentChecker\Parser\register('',
+                                         \ImmanentChecker\PARSER_TYPE_FILE,
                                          function (string $strFilePath) { return $strFilePath; });
 
   };
@@ -96,8 +96,8 @@ function testParserRegisterRejectsNameWithSurroundingWhitespace() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Parser\register(' InvalidParserName ',
-                                         \ImmanentCodeChecker\PARSER_TYPE_FILE,
+    \ImmanentChecker\Parser\register(' InvalidParserName ',
+                                         \ImmanentChecker\PARSER_TYPE_FILE,
                                          function (string $strFilePath) { return $strFilePath; });
 
   };
@@ -113,7 +113,7 @@ function testParserRegisterRejectsUnknownType() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Parser\register('ParserRegisterRejectsUnknownType' . uniqid(),
+    \ImmanentChecker\Parser\register('ParserRegisterRejectsUnknownType' . uniqid(),
                                          'unknown-parser-type',
                                          function (string $strFilePath) { return $strFilePath; });
 
@@ -130,8 +130,8 @@ function testParserRegisterRejectsEmptyPattern() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Parser\register('ParserRegisterRejectsEmptyPattern' . uniqid(),
-                                         \ImmanentCodeChecker\PARSER_TYPE_FILE,
+    \ImmanentChecker\Parser\register('ParserRegisterRejectsEmptyPattern' . uniqid(),
+                                         \ImmanentChecker\PARSER_TYPE_FILE,
                                          function (string $strFilePath) { return $strFilePath; },
                                          '');
 
@@ -148,8 +148,8 @@ function testParserRegisterRejectsPatternWithSurroundingWhitespace() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Parser\register('ParserRegisterRejectsPatternWithSurroundingWhitespace' . uniqid(),
-                                         \ImmanentCodeChecker\PARSER_TYPE_FILE,
+    \ImmanentChecker\Parser\register('ParserRegisterRejectsPatternWithSurroundingWhitespace' . uniqid(),
+                                         \ImmanentChecker\PARSER_TYPE_FILE,
                                          function (string $strFilePath) { return $strFilePath; },
                                          ' *.php ');
 

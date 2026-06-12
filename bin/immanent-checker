@@ -5,14 +5,14 @@ require_once __DIR__ . '/../config.inc.php';
 
 try {
 
-  $arrArguments = \ImmanentCodeChecker\Cli\parseArguments($argv);
+  $arrArguments = \ImmanentChecker\Cli\parseArguments($argv);
 
   foreach($arrArguments['project'] AS $strProjectPath)
-    \ImmanentCodeChecker\Run\project($strProjectPath,
+    \ImmanentChecker\Run\project($strProjectPath,
                                      $arrArguments['suite'],
                                      $arrArguments['exclude']);
 
-  $strOutput = \ImmanentCodeChecker\Output\json();
+  $strOutput = \ImmanentChecker\Output\json();
 
   if($strOutput === '')
     exit(0);

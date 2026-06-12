@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Check;
+namespace ImmanentChecker\Check;
 
 /**
   * @param $strStage       - one of the 4 Stages to register the check for
@@ -28,21 +28,21 @@ namespace ImmanentCodeChecker\Check;
   **/
 function register(string $strStage, string $strName, callable $cloCallback, string $strDescription = '', string $strPattern = '*') : void {
 
-  $arrStages = array(\ImmanentCodeChecker\STAGE_COMPLETE_PROJECT,
-                     \ImmanentCodeChecker\STAGE_PROJECT,
-                     \ImmanentCodeChecker\STAGE_DIRECTORY,
-                     \ImmanentCodeChecker\STAGE_FILE);
+  $arrStages = array(\ImmanentChecker\STAGE_COMPLETE_PROJECT,
+                     \ImmanentChecker\STAGE_PROJECT,
+                     \ImmanentChecker\STAGE_DIRECTORY,
+                     \ImmanentChecker\STAGE_FILE);
 
   if(!in_array($strStage, $arrStages))
     throw new \Exception ("Given analysis-stage is invalid: '$strStage'");
 
-  $arrProjectStages = array(\ImmanentCodeChecker\STAGE_COMPLETE_PROJECT,
-                            \ImmanentCodeChecker\STAGE_PROJECT);
+  $arrProjectStages = array(\ImmanentChecker\STAGE_COMPLETE_PROJECT,
+                            \ImmanentChecker\STAGE_PROJECT);
 
   if(in_array($strStage, $arrProjectStages) && '*' !== $strPattern)
     throw new \Exception ("Patterns are only supported for file and directory checks, not for: '$strStage'");
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);
+  $objRegistry = new \ImmanentChecker\DataObjectPool($strStage);
 
   if($objRegistry->exists($strName))
     throw new \Exception ("Check-Name already exists, use a unique one. Given: '$strName'");

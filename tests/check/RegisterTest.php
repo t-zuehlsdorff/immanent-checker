@@ -10,14 +10,14 @@ require_once __DIR__ . '/../../config.inc.php';
   **/
 function testRegisterStoresCheckInStageRegistry() {
 
-  $strStage       = \ImmanentCodeChecker\STAGE_COMPLETE_PROJECT;
+  $strStage       = \ImmanentChecker\STAGE_COMPLETE_PROJECT;
   $strName        = 'RegisterCompleteProject' . uniqid();
   $strDescription = 'test check registration';
   $cloCallback    = function () { return true; };
 
-  \ImmanentCodeChecker\Check\register($strStage, $strName, $cloCallback, $strDescription);
+  \ImmanentChecker\Check\register($strStage, $strName, $cloCallback, $strDescription);
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);
+  $objRegistry = new \ImmanentChecker\DataObjectPool($strStage);
   $objCheck    = $objRegistry->get($strName);
   $arrCheck    = $objCheck->getAll();
 
@@ -33,13 +33,13 @@ function testRegisterStoresCheckInStageRegistry() {
   **/
 function testRegisterUsesEmptyDescriptionByDefault() {
 
-  $strStage    = \ImmanentCodeChecker\STAGE_PROJECT;
+  $strStage    = \ImmanentChecker\STAGE_PROJECT;
   $strName     = 'RegisterWithoutDescription' . uniqid();
   $cloCallback = function () { return true; };
 
-  \ImmanentCodeChecker\Check\register($strStage, $strName, $cloCallback);
+  \ImmanentChecker\Check\register($strStage, $strName, $cloCallback);
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);
+  $objRegistry = new \ImmanentChecker\DataObjectPool($strStage);
   $arrCheck    = $objRegistry->get($strName)->getAll();
 
   assertEquals($arrCheck['description'], '');
@@ -51,19 +51,19 @@ function testRegisterUsesEmptyDescriptionByDefault() {
   **/
 function testRegisterAcceptsAllKnownStages() {
 
-  $arrStages = array(\ImmanentCodeChecker\STAGE_COMPLETE_PROJECT,
-                     \ImmanentCodeChecker\STAGE_PROJECT,
-                     \ImmanentCodeChecker\STAGE_DIRECTORY,
-                     \ImmanentCodeChecker\STAGE_FILE);
+  $arrStages = array(\ImmanentChecker\STAGE_COMPLETE_PROJECT,
+                     \ImmanentChecker\STAGE_PROJECT,
+                     \ImmanentChecker\STAGE_DIRECTORY,
+                     \ImmanentChecker\STAGE_FILE);
 
   foreach($arrStages AS $strStage) {
 
     $strName     = 'RegisterKnownStage' . uniqid();
     $cloCallback = function () { return true; };
 
-    \ImmanentCodeChecker\Check\register($strStage, $strName, $cloCallback);
+    \ImmanentChecker\Check\register($strStage, $strName, $cloCallback);
 
-    $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);
+    $objRegistry = new \ImmanentChecker\DataObjectPool($strStage);
 
     assertTrue($objRegistry->exists($strName));
 
@@ -79,7 +79,7 @@ function testRegisterRejectsUnknownStage() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Check\register('unknown-stage',
+    \ImmanentChecker\Check\register('unknown-stage',
                                         'RegisterUnknownStage',
                                         function () { return true; });
 
@@ -95,15 +95,15 @@ function testRegisterRejectsUnknownStage() {
   **/
 function testRegisterRejectsDuplicateNameWithinStage() {
 
-  $strStage    = \ImmanentCodeChecker\STAGE_FILE;
+  $strStage    = \ImmanentChecker\STAGE_FILE;
   $strName     = 'RegisterDuplicateName' . uniqid();
   $cloCallback = function () { return true; };
 
-  \ImmanentCodeChecker\Check\register($strStage, $strName, $cloCallback);
+  \ImmanentChecker\Check\register($strStage, $strName, $cloCallback);
 
   $cloTest = function () use ($strStage, $strName) {
 
-    \ImmanentCodeChecker\Check\register($strStage, $strName, function () { return true; });
+    \ImmanentChecker\Check\register($strStage, $strName, function () { return true; });
 
   };
 
@@ -120,16 +120,16 @@ function testRegisterAllowsSameNameInDifferentStages() {
   $strName     = 'RegisterSameNameDifferentStages' . uniqid();
   $cloCallback = function () { return true; };
 
-  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_DIRECTORY,
+  \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_DIRECTORY,
                                       $strName,
                                       $cloCallback);
 
-  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+  \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_FILE,
                                       $strName,
                                       $cloCallback);
 
-  $objDirectoryRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\STAGE_DIRECTORY);
-  $objFileRegistry      = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\STAGE_FILE);
+  $objDirectoryRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\STAGE_DIRECTORY);
+  $objFileRegistry      = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\STAGE_FILE);
 
   assertTrue($objDirectoryRegistry->exists($strName));
   assertTrue($objFileRegistry->exists($strName));
@@ -143,7 +143,7 @@ function testStageRegistryRejectsEmptyCheckName() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+    \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_FILE,
                                         '',
                                         function () { return true; },
                                         'valid description');
@@ -162,7 +162,7 @@ function testStageRegistryRejectsCheckNameWithSurroundingWhitespace() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+    \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_FILE,
                                         ' InvalidCheckName ',
                                         function () { return true; },
                                         'valid description');
@@ -181,7 +181,7 @@ function testStageRegistryRejectsDescriptionWithSurroundingWhitespace() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+    \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_FILE,
                                         'InvalidDescriptionWhitespace' . uniqid(),
                                         function () { return true; },
                                         ' valid description ');
@@ -197,13 +197,13 @@ function testStageRegistryRejectsDescriptionWithSurroundingWhitespace() {
   **/
 function testRegisterUsesDefaultPatternWhenNoneGiven() {
 
-  $strStage    = \ImmanentCodeChecker\STAGE_FILE;
+  $strStage    = \ImmanentChecker\STAGE_FILE;
   $strName     = 'RegisterUsesDefaultPattern' . uniqid();
   $cloCallback = function () { return true; };
 
-  \ImmanentCodeChecker\Check\register($strStage, $strName, $cloCallback);
+  \ImmanentChecker\Check\register($strStage, $strName, $cloCallback);
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);
+  $objRegistry = new \ImmanentChecker\DataObjectPool($strStage);
   $arrCheck    = $objRegistry->get($strName)->getAll();
 
   assertEquals($arrCheck['pattern'], '*');
@@ -215,13 +215,13 @@ function testRegisterUsesDefaultPatternWhenNoneGiven() {
   **/
 function testRegisterStoresExplicitPattern() {
 
-  $strStage    = \ImmanentCodeChecker\STAGE_FILE;
+  $strStage    = \ImmanentChecker\STAGE_FILE;
   $strName     = 'RegisterStoresExplicitPattern' . uniqid();
   $cloCallback = function () { return true; };
 
-  \ImmanentCodeChecker\Check\register($strStage, $strName, $cloCallback, '', '*.php');
+  \ImmanentChecker\Check\register($strStage, $strName, $cloCallback, '', '*.php');
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);
+  $objRegistry = new \ImmanentChecker\DataObjectPool($strStage);
   $arrCheck    = $objRegistry->get($strName)->getAll();
 
   assertEquals($arrCheck['pattern'], '*.php');
@@ -233,13 +233,13 @@ function testRegisterStoresExplicitPattern() {
   **/
 function testRegisterAcceptsPatternForDirectoryStage() {
 
-  $strStage    = \ImmanentCodeChecker\STAGE_DIRECTORY;
+  $strStage    = \ImmanentChecker\STAGE_DIRECTORY;
   $strName     = 'RegisterAcceptsPatternForDirectory' . uniqid();
   $cloCallback = function () { return true; };
 
-  \ImmanentCodeChecker\Check\register($strStage, $strName, $cloCallback, '', 'src/*');
+  \ImmanentChecker\Check\register($strStage, $strName, $cloCallback, '', 'src/*');
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);
+  $objRegistry = new \ImmanentChecker\DataObjectPool($strStage);
   $arrCheck    = $objRegistry->get($strName)->getAll();
 
   assertEquals($arrCheck['pattern'], 'src/*');
@@ -254,7 +254,7 @@ function testRegisterRejectsPatternForCompleteProjectStage() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_COMPLETE_PROJECT,
+    \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_COMPLETE_PROJECT,
                                         'RegisterRejectsPatternForCompleteProject' . uniqid(),
                                         function () { return true; },
                                         '',
@@ -273,7 +273,7 @@ function testRegisterRejectsPatternForProjectStage() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_PROJECT,
+    \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_PROJECT,
                                         'RegisterRejectsPatternForProject' . uniqid(),
                                         function () { return true; },
                                         '',
@@ -292,7 +292,7 @@ function testStageRegistryRejectsEmptyPattern() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+    \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_FILE,
                                         'RegisterRejectsEmptyPattern' . uniqid(),
                                         function () { return true; },
                                         '',
@@ -312,7 +312,7 @@ function testStageRegistryRejectsPatternWithSurroundingWhitespace() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_FILE,
+    \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_FILE,
                                         'RegisterRejectsPatternWhitespace' . uniqid(),
                                         function () { return true; },
                                         '',

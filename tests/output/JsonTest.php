@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../config.inc.php';
   **/
 function testJsonReturnsEmptyStringWithoutErrors() {
 
-  $strResult = \ImmanentCodeChecker\Output\json();
+  $strResult = \ImmanentChecker\Output\json();
 
   assertEquals($strResult, '');
 
@@ -22,19 +22,19 @@ function testJsonOutputContainsFileError() {
 
   $strCheckName = 'JsonOutputContainsFileError' . uniqid();
 
-  $objFilePool = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_FILE);
+  $objFilePool = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\EXPLORE_FILE);
   $objFilePool->add('json-test-file-' . uniqid(),
                     array('full_path'     => '/tmp/test.php',
                           'relative_path' => 'test.php',
                           'permissions'   => '0644'));
 
-  $objFile = new \ImmanentCodeChecker\DataObject(null,
+  $objFile = new \ImmanentChecker\DataObject(null,
                                                 array('full_path'     => '/tmp/test.php',
                                                       'relative_path' => 'test.php'));
 
-  \ImmanentCodeChecker\Error\file($strCheckName, 'test error message', $objFile, 42);
+  \ImmanentChecker\Error\file($strCheckName, 'test error message', $objFile, 42);
 
-  $strResult   = \ImmanentCodeChecker\Output\json();
+  $strResult   = \ImmanentChecker\Output\json();
   $arrDecoded  = json_decode($strResult, true);
 
   assertEquals(json_last_error(), JSON_ERROR_NONE);
@@ -60,13 +60,13 @@ function testJsonOutputContainsDirectoryError() {
 
   $strCheckName = 'JsonOutputContainsDirectoryError' . uniqid();
 
-  $objDirectory = new \ImmanentCodeChecker\DataObject(null,
+  $objDirectory = new \ImmanentChecker\DataObject(null,
                                                      array('full_path'     => '/tmp/src',
                                                            'relative_path' => 'src'));
 
-  \ImmanentCodeChecker\Error\directory($strCheckName, 'test directory error', $objDirectory);
+  \ImmanentChecker\Error\directory($strCheckName, 'test directory error', $objDirectory);
 
-  $strResult  = \ImmanentCodeChecker\Output\json();
+  $strResult  = \ImmanentChecker\Output\json();
   $arrDecoded = json_decode($strResult, true);
 
   assertEquals(json_last_error(), JSON_ERROR_NONE);
@@ -92,12 +92,12 @@ function testJsonOutputDecodesProjectErrorDetails() {
   $strCheckName = 'JsonOutputDecodesProjectErrorDetails' . uniqid();
   $strDetails   = json_encode(array('expected' => 'Readme.md', 'found' => 3));
 
-  \ImmanentCodeChecker\Error\project($strCheckName,
+  \ImmanentChecker\Error\project($strCheckName,
                                      'test project error',
                                      array('src/File.php'),
                                      $strDetails);
 
-  $strResult  = \ImmanentCodeChecker\Output\json();
+  $strResult  = \ImmanentChecker\Output\json();
   $arrDecoded = json_decode($strResult, true);
 
   assertEquals(json_last_error(), JSON_ERROR_NONE);
@@ -123,9 +123,9 @@ function testJsonOutputOmitsEmptyDetails() {
 
   $strCheckName = 'JsonOutputOmitsEmptyDetails' . uniqid();
 
-  \ImmanentCodeChecker\Error\project($strCheckName, 'no details error');
+  \ImmanentChecker\Error\project($strCheckName, 'no details error');
 
-  $strResult  = \ImmanentCodeChecker\Output\json();
+  $strResult  = \ImmanentChecker\Output\json();
   $arrDecoded = json_decode($strResult, true);
 
   $arrFound = null;
@@ -146,12 +146,12 @@ function testJsonOutputDecodesCompleteProjectErrorDetails() {
   $strCheckName = 'JsonOutputDecodesCompleteProjectErrorDetails' . uniqid();
   $strDetails   = json_encode(array('reason' => 'missing vendor'));
 
-  \ImmanentCodeChecker\Error\completeProject($strCheckName,
+  \ImmanentChecker\Error\completeProject($strCheckName,
                                              'complete project error',
                                              array(),
                                              $strDetails);
 
-  $strResult  = \ImmanentCodeChecker\Output\json();
+  $strResult  = \ImmanentChecker\Output\json();
   $arrDecoded = json_decode($strResult, true);
 
   $arrFound = null;

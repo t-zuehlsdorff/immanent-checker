@@ -11,11 +11,11 @@ const COMPLETE_PROJECT_CHECK_TEST_PROJECT_PATH = __DIR__ . '/../explore/test-dat
   **/
 function registerCompleteProjectErrorCheck(string $strCheckName): void {
 
-  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_COMPLETE_PROJECT,
+  \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_COMPLETE_PROJECT,
                                       $strCheckName,
                                       function () use ($strCheckName) {
 
-                                        \ImmanentCodeChecker\Error\completeProject($strCheckName,
+                                        \ImmanentChecker\Error\completeProject($strCheckName,
                                                                                    'expected complete project check error',
                                                                                    array('Readme.md', 'src/Test.php'),
                                                                                    '{"context":"complete-project"}');
@@ -29,7 +29,7 @@ function registerCompleteProjectErrorCheck(string $strCheckName): void {
   **/
 function getCompleteProjectErrorsByCheck(string $strCheckName): array {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_COMPLETE_PROJECT);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_COMPLETE_PROJECT);
   $arrErrors   = array();
 
   foreach($objRegistry->getAll() AS $objError)
@@ -47,10 +47,10 @@ function testCompleteProjectCallsRegisteredCheckOnce() {
 
   $strCheckName = 'CompleteProjectCallsRegisteredCheckOnce';
 
-  \ImmanentCodeChecker\Explore\project(COMPLETE_PROJECT_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Explore\project(COMPLETE_PROJECT_CHECK_TEST_PROJECT_PATH);
   registerCompleteProjectErrorCheck($strCheckName);
 
-  \ImmanentCodeChecker\Check\completeProject();
+  \ImmanentChecker\Check\completeProject();
 
   $arrErrors = getCompleteProjectErrorsByCheck($strCheckName);
   $arrError  = $arrErrors[0]->getAll();
@@ -69,23 +69,23 @@ function testCompleteProjectPassesCompleteProjectDataObjectPoolToCallback() {
   $strCheckName   = 'CompleteProjectPassesCompleteProjectDataObjectPoolToCallback';
   $strProjectPath = realpath(COMPLETE_PROJECT_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Explore\project(COMPLETE_PROJECT_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Explore\project(COMPLETE_PROJECT_CHECK_TEST_PROJECT_PATH);
 
-  \ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_COMPLETE_PROJECT,
+  \ImmanentChecker\Check\register(\ImmanentChecker\STAGE_COMPLETE_PROJECT,
                                       $strCheckName,
-                                      function (\ImmanentCodeChecker\DataObjectPool $objProject) use ($strCheckName, $strProjectPath) {
+                                      function (\ImmanentChecker\DataObjectPool $objProject) use ($strCheckName, $strProjectPath) {
 
                                         $objReadme = $objProject->get($strProjectPath . '/Readme.md');
                                         $objSource = $objProject->get($strProjectPath . '/src/Test.php');
 
-                                        \ImmanentCodeChecker\Error\completeProject($strCheckName,
+                                        \ImmanentChecker\Error\completeProject($strCheckName,
                                                                                    'expected complete project check error',
                                                                                    array($objReadme->get('relative_path'),
                                                                                          $objSource->get('relative_path')));
 
                                       });
 
-  \ImmanentCodeChecker\Check\completeProject();
+  \ImmanentChecker\Check\completeProject();
 
   $arrErrors = getCompleteProjectErrorsByCheck($strCheckName);
   $arrError  = $arrErrors[0]->getAll();
@@ -102,10 +102,10 @@ function testAllCallsCompleteProjectChecks() {
 
   $strCheckName = 'AllCallsCompleteProjectChecks';
 
-  \ImmanentCodeChecker\Explore\project(COMPLETE_PROJECT_CHECK_TEST_PROJECT_PATH);
+  \ImmanentChecker\Explore\project(COMPLETE_PROJECT_CHECK_TEST_PROJECT_PATH);
   registerCompleteProjectErrorCheck($strCheckName);
 
-  \ImmanentCodeChecker\Check\all();
+  \ImmanentChecker\Check\all();
 
   $arrErrors = getCompleteProjectErrorsByCheck($strCheckName);
 

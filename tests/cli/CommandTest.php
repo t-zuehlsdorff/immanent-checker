@@ -2,7 +2,7 @@
 
 namespace APHPUnit\Testcases;
 
-const CLI_COMMAND = __DIR__ . '/../../bin/immanent-code-checker';
+const CLI_COMMAND = __DIR__ . '/../../bin/immanent-checker';
 
 /**
   * Expect the CLI command to return exit code 1 and valid JSON when a suite

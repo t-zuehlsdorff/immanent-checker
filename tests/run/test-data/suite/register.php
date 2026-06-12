@@ -1,10 +1,10 @@
 <?php
 
-\ImmanentCodeChecker\Check\register(\ImmanentCodeChecker\STAGE_PROJECT,
+\ImmanentChecker\Check\register(\ImmanentChecker\STAGE_PROJECT,
                                     'RunProjectTestProjectCheck',
-                                    function (\ImmanentCodeChecker\DataObjectPool $objProject) {
+                                    function (\ImmanentChecker\DataObjectPool $objProject) {
 
-                                      \ImmanentCodeChecker\Error\project('RunProjectTestProjectCheck',
+                                      \ImmanentChecker\Error\project('RunProjectTestProjectCheck',
                                                                          'expected run project error',
                                                                          array_keys($objProject->getAll()));
 

@@ -9,12 +9,12 @@ require_once __DIR__ . '/../../config.inc.php';
   **/
 function testProjectErrorStoresExpectedData() {
 
-  \ImmanentCodeChecker\Error\project('ProjectErrorStoresExpectedData',
+  \ImmanentChecker\Error\project('ProjectErrorStoresExpectedData',
                                      'expected project error',
                                      array('src/Foo.php', 'tests/FooTest.php'),
                                      '{"function":"foo"}');
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_PROJECT);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_PROJECT);
 
   $arrAllErrors = $objRegistry->getAll();
 
@@ -36,10 +36,10 @@ function testProjectErrorStoresExpectedData() {
   **/
 function testProjectErrorAllowsMissingFilesAndDetails() {
 
-  \ImmanentCodeChecker\Error\project('ProjectErrorAllowsMissingFilesAndDetails',
+  \ImmanentChecker\Error\project('ProjectErrorAllowsMissingFilesAndDetails',
                                      'expected project error');
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_PROJECT);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_PROJECT);
 
   $arrAllErrors = $objRegistry->getAll();
 
@@ -60,7 +60,7 @@ function testProjectErrorRejectsEmptyCheckName() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\project('', 'expected project error');
+    \ImmanentChecker\Error\project('', 'expected project error');
 
   };
 
@@ -75,7 +75,7 @@ function testProjectErrorRejectsEmptyMessage() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\project('ProjectErrorRejectsEmptyMessage', '');
+    \ImmanentChecker\Error\project('ProjectErrorRejectsEmptyMessage', '');
 
   };
 
@@ -90,7 +90,7 @@ function testProjectErrorRejectsEmptyFileReference() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\project('ProjectErrorRejectsEmptyFileReference',
+    \ImmanentChecker\Error\project('ProjectErrorRejectsEmptyFileReference',
                                        'expected project error',
                                        array(''));
 
@@ -107,7 +107,7 @@ function testProjectErrorRejectsFileReferenceWithSurroundingWhitespace() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\project('ProjectErrorRejectsFileReferenceWithSurroundingWhitespace',
+    \ImmanentChecker\Error\project('ProjectErrorRejectsFileReferenceWithSurroundingWhitespace',
                                        'expected project error',
                                        array(' src/Foo.php '));
 
@@ -124,7 +124,7 @@ function testProjectErrorRejectsInvalidJsonDetails() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\project('ProjectErrorRejectsInvalidJsonDetails',
+    \ImmanentChecker\Error\project('ProjectErrorRejectsInvalidJsonDetails',
                                        'expected project error',
                                        array(),
                                        '{invalid');
@@ -142,7 +142,7 @@ function testProjectErrorRejectsJsonDetailsWithSurroundingWhitespace() {
 
   $cloTest = function () {
 
-    \ImmanentCodeChecker\Error\project('ProjectErrorRejectsJsonDetailsWithSurroundingWhitespace',
+    \ImmanentChecker\Error\project('ProjectErrorRejectsJsonDetailsWithSurroundingWhitespace',
                                        'expected project error',
                                        array(),
                                        ' {"function":"foo"} ');

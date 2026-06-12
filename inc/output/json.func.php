@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Output;
+namespace ImmanentChecker\Output;
 
 /**
   * Collect all errors from every error pool and return them as a JSON string.
@@ -24,8 +24,8 @@ namespace ImmanentCodeChecker\Output;
   **/
 function json() : string {
 
-  $arrOutput = array('errors' => array('complete_project' => collectProjectErrors(\ImmanentCodeChecker\ERROR_COMPLETE_PROJECT),
-                                       'project'          => collectProjectErrors(\ImmanentCodeChecker\ERROR_PROJECT),
+  $arrOutput = array('errors' => array('complete_project' => collectProjectErrors(\ImmanentChecker\ERROR_COMPLETE_PROJECT),
+                                       'project'          => collectProjectErrors(\ImmanentChecker\ERROR_PROJECT),
                                        'directory'        => collectDirectoryErrors(),
                                        'file'             => collectFileErrors()));
 

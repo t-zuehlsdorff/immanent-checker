@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker;
+namespace ImmanentChecker;
 
 /**
   * The DataObjectPool is a class to  manage

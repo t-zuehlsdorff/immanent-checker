@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Check;
+namespace ImmanentChecker\Check;
 
 /**
   * Execute all checks registered for file analysis.
@@ -10,24 +10,24 @@ namespace ImmanentCodeChecker\Check;
   * in the temporary PARSER_RESULT pool for the duration of this file.
   *
   * After parser preparation, every explored file is passed as
-  * \ImmanentCodeChecker\DataObject to every check registered for STAGE_FILE.
+  * \ImmanentChecker\DataObject to every check registered for STAGE_FILE.
   *
   * After all file checks for the current file ran, the temporary parser results
   * are discarded before the next file is processed.
   **/
 function file() : void {
 
-  $objFiles         = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\EXPLORE_FILE);
-  $objChecks        = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\STAGE_FILE);
-  $objParsers       = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_REGISTRY);
-  $objParserResults = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_RESULT);
+  $objFiles         = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\EXPLORE_FILE);
+  $objChecks        = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\STAGE_FILE);
+  $objParsers       = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\PARSER_REGISTRY);
+  $objParserResults = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\PARSER_RESULT);
 
   foreach($objFiles->getAll() AS $objFile) {
 
     // if this is a file, parse them using all Parsers
     foreach($objParsers->getAll() AS $objParser) {
 
-      if($objParser->get('type') !== \ImmanentCodeChecker\PARSER_TYPE_FILE)
+      if($objParser->get('type') !== \ImmanentChecker\PARSER_TYPE_FILE)
         continue;
 
       if(!fnmatch($objParser->get('pattern'), $objFile->get('relative_path')))

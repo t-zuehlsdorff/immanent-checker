@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Output;
+namespace ImmanentChecker\Output;
 
 /**
   * @return array - list of directory errors
@@ -9,7 +9,7 @@ namespace ImmanentCodeChecker\Output;
   **/
 function collectDirectoryErrors() : array {
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_DIRECTORY);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_DIRECTORY);
   $arrErrors   = array();
 
   foreach($objRegistry->getAll() AS $objError) {

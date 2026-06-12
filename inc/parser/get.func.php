@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Parser;
+namespace ImmanentChecker\Parser;
 
 /**
   * @param $strName - the name of the registered parser (e.g. PARSER_PHP_TOKEN_GET_ALL)
@@ -19,15 +19,15 @@ namespace ImmanentCodeChecker\Parser;
   * A single file can be processed by multiple parsers. Each parser result is
   * accessible independently by its name:
   *
-  *   $arrTokens = \ImmanentCodeChecker\Parser\get(\ImmanentCodeChecker\PARSER_PHP_TOKEN_GET_ALL);
-  *   $arrOther  = \ImmanentCodeChecker\Parser\get('MY_CUSTOM_PARSER');
+  *   $arrTokens = \ImmanentChecker\Parser\get(\ImmanentChecker\PARSER_PHP_TOKEN_GET_ALL);
+  *   $arrOther  = \ImmanentChecker\Parser\get('MY_CUSTOM_PARSER');
   *
   * If no result exists for the given parser name, the parser either did not
   * match the current file or the name is incorrect. Both cases are errors.
   **/
 function get(string $strName) : mixed {
 
-  $objResults = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\PARSER_RESULT);
+  $objResults = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\PARSER_RESULT);
 
   if(!$objResults->exists($strName))
     throw new \Exception("No parser result available for: '$strName'");

@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Error;
+namespace ImmanentChecker\Error;
 
 /**
   * Initialize the file-error pool with its validator.
@@ -100,7 +100,7 @@ function initFilePool(): void {
 
   };
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_FILE);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_FILE);
   $objRegistry->setValidator($cloFileErrorValidator);
 
 }

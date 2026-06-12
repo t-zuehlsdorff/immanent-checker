@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Check;
+namespace ImmanentChecker\Check;
 
 /**
   * Initialize all check registry pools with their validator.
@@ -57,12 +57,12 @@ function initPools(): void {
 
   };
 
-  foreach(array(\ImmanentCodeChecker\STAGE_COMPLETE_PROJECT,
-                \ImmanentCodeChecker\STAGE_PROJECT,
-                \ImmanentCodeChecker\STAGE_DIRECTORY,
-                \ImmanentCodeChecker\STAGE_FILE) AS $strStage) {
+  foreach(array(\ImmanentChecker\STAGE_COMPLETE_PROJECT,
+                \ImmanentChecker\STAGE_PROJECT,
+                \ImmanentChecker\STAGE_DIRECTORY,
+                \ImmanentChecker\STAGE_FILE) AS $strStage) {
 
-    $objRegistry = new \ImmanentCodeChecker\DataObjectPool($strStage);
+    $objRegistry = new \ImmanentChecker\DataObjectPool($strStage);
     $objRegistry->setValidator($cloCheckValidator);
 
   }

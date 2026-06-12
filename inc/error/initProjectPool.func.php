@@ -1,6 +1,6 @@
 <?php
 
-namespace ImmanentCodeChecker\Error;
+namespace ImmanentChecker\Error;
 
 /**
   * Initialize the project-error and complete-project-error pools with their
@@ -10,10 +10,10 @@ function initProjectPool(): void {
 
   $cloProjectErrorValidator = getProjectErrorValidator();
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_PROJECT);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_PROJECT);
   $objRegistry->setValidator($cloProjectErrorValidator);
 
-  $objRegistry = new \ImmanentCodeChecker\DataObjectPool(\ImmanentCodeChecker\ERROR_COMPLETE_PROJECT);
+  $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_COMPLETE_PROJECT);
   $objRegistry->setValidator($cloProjectErrorValidator);
 
 }
