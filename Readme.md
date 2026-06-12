@@ -238,10 +238,32 @@ multiple times, which allows composing a run from several check suites and
 running them for several project directories.
 
 Exclude patterns can be provided multiple times. They are passed to project
-exploration and are matched against project-relative paths.
+exploration and are matched against project-relative paths using `fnmatch`
+semantics.
+
+The output format can be chosen with `--format`. The default is `gcc`, which
+prints one error per line in the format `file:line: [check] message`. The
+alternative is `json`, which prints structured JSON on stdout.
+
+Running the tool without arguments or with `--help` / `-h` shows the built-in
+help page.
 
 For every given project, the selected suites are loaded and all check stages are
 executed.
+
+```
+Usage:
+  immanent-checker --suite <path> --project <path> [options]
+
+Required:
+  --suite <path>      Path to a check suite directory. Can be given multiple times.
+  --project <path>    Path to the project to analyse. Can be given multiple times.
+
+Options:
+  --exclude <pattern> Exclude files matching an fnmatch pattern. Can be given multiple times.
+  --format <format>   Output format: gcc (default), json
+  --help, -h          Show this help and exit
+```
 
 Example:
 
@@ -251,6 +273,12 @@ bin/immanent-checker --suite /path/to/base-suite \
   --exclude 'vendor/*' \
   --exclude 'node_modules/*' \
   --project /path/to/project
+```
+
+Example with JSON output:
+
+```bash
+bin/immanent-checker --suite ./checks --project ./src --format json
 ```
 
 # Project Runs
