@@ -36,7 +36,9 @@ require_once __DIR__ . '/inc/check/directory.func.php';
 require_once __DIR__ . '/inc/check/file.func.php';
 
 require_once __DIR__ . '/inc/error/initDirectoryPool.func.php';
+require_once __DIR__ . '/inc/error/validateFileError.func.php';
 require_once __DIR__ . '/inc/error/initFilePool.func.php';
+require_once __DIR__ . '/inc/error/validateProjectError.func.php';
 require_once __DIR__ . '/inc/error/getProjectErrorValidator.func.php';
 require_once __DIR__ . '/inc/error/initProjectPool.func.php';
 require_once __DIR__ . '/inc/error/completeProject.func.php';

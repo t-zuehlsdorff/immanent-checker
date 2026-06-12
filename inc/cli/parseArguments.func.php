@@ -38,7 +38,6 @@ function parseArguments(array $arrArguments): array {
       if(!is_dir($strPath))
         throw new \Exception ("Given path for $strArg is not a directory: '$strPath'");
 
-
   foreach(array('suite', 'project') AS $strArg)
     if(empty($arrResult[$strArg]))
       throw new \Exception ("At least one value must be set for parameter '--$strArg'");

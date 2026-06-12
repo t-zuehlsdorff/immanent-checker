@@ -37,70 +37,7 @@ namespace ImmanentChecker\Error;
   **/
 function initFilePool(): void {
 
-  $cloFileErrorValidator = function(array $arrData): bool {
-
-    if(!array_key_exists('check', $arrData))
-      return false;
-
-    if(!is_string($arrData['check']))
-      return false;
-
-    if(strlen(trim($arrData['check'])) < 1)
-      return false;
-
-    if($arrData['check'] !== trim($arrData['check']))
-      return false;
-
-    if(!array_key_exists('message', $arrData))
-      return false;
-
-    if(!is_string($arrData['message']))
-      return false;
-
-    if(strlen(trim($arrData['message'])) < 1)
-      return false;
-
-    if($arrData['message'] !== trim($arrData['message']))
-      return false;
-
-    if(!array_key_exists('full_path', $arrData))
-      return false;
-
-    if(!is_string($arrData['full_path']))
-      return false;
-
-    if(strlen(trim($arrData['full_path'])) < 1)
-      return false;
-
-    if($arrData['full_path'] !== trim($arrData['full_path']))
-      return false;
-
-    if(!array_key_exists('relative_path', $arrData))
-      return false;
-
-    if(!is_string($arrData['relative_path']))
-      return false;
-
-    if(strlen(trim($arrData['relative_path'])) < 1)
-      return false;
-
-    if($arrData['relative_path'] !== trim($arrData['relative_path']))
-      return false;
-
-    if(!array_key_exists('line', $arrData))
-      return false;
-
-    if(!is_null($arrData['line']) && !is_int($arrData['line']))
-      return false;
-
-    if(is_int($arrData['line']) && $arrData['line'] < 1)
-      return false;
-
-    return true;
-
-  };
-
   $objRegistry = new \ImmanentChecker\DataObjectPool(\ImmanentChecker\ERROR_FILE);
-  $objRegistry->setValidator($cloFileErrorValidator);
+  $objRegistry->setValidator('\ImmanentChecker\Error\validateFileError');
 
 }
