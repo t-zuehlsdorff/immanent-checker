@@ -48,7 +48,10 @@ try {
                                      $arrArguments['suite'],
                                      $arrArguments['exclude']);
 
-  $strFormat = empty($arrArguments['format']) ? 'gcc' : end($arrArguments['format']);
+  $strFormat = 'gcc';
+
+  if(!empty($arrArguments['format']))
+    $strFormat = end($arrArguments['format']);
 
   if('json' === $strFormat)
     $strOutput = \ImmanentChecker\Output\json();

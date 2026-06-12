@@ -20,7 +20,7 @@ namespace ImmanentChecker\Output;
   * value so it becomes a proper part of the JSON output instead of a quoted
   * string inside a string.
   *
-  * @return string - encoded JSON, or an empty string when no errors exist
+  * @returns string - encoded JSON, or an empty string when no errors exist
   **/
 function json() : string {
 

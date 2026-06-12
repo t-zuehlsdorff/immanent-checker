@@ -17,7 +17,7 @@ namespace ImmanentChecker\Output;
   *
   *   relative_path: [check] message
   *
-  * @return string - GCC-formatted output, or empty string when no errors
+  * @returns string - GCC-formatted output, or empty string when no errors
   **/
 function gcc() : string {
 

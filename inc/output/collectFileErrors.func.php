@@ -3,7 +3,7 @@
 namespace ImmanentChecker\Output;
 
 /**
-  * @return array - list of file errors
+  * @returns array - list of file errors
   *
   * Collect errors from the file error pool.
   **/

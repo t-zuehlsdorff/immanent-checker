@@ -40,7 +40,10 @@ class DataObject {
     **/
   public function __construct(?callable $cloValidator = null, array $arrData = array()) {
     
-    $this->cloValidator = (!is_null($cloValidator)) ? $cloValidator : function() {return true; };
+    $this->cloValidator = function() { return true; };
+
+    if(!is_null($cloValidator))
+      $this->cloValidator = $cloValidator;
     
     if(!empty($arrData))
       $this->add($arrData);

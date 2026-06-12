@@ -5,7 +5,7 @@ namespace ImmanentChecker\Output;
 /**
   * @param $strPool - the error pool constant to collect from
   *
-  * @return array - list of project-like errors
+  * @returns array - list of project-like errors
   *
   * Collect errors from a project-like error pool (complete_project or project).
   *

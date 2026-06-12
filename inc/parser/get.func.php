@@ -5,9 +5,9 @@ namespace ImmanentChecker\Parser;
 /**
   * @param $strName - the name of the registered parser (e.g. PARSER_PHP_TOKEN_GET_ALL)
   *
-  * @return mixed - the parser result for the file currently being checked
-  *
   * @throws \Exception - if no result exists for the given parser name
+  *
+  * @returns mixed - the parser result for the file currently being checked
   *
   * Return the result of a named parser for the file currently being checked.
   *
