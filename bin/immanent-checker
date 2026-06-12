@@ -17,12 +17,12 @@ Required:
 
 Options:
   --exclude <pattern> Exclude files matching an fnmatch pattern. Can be given multiple times.
-  --format <format>   Output format: json (default), gcc
+  --format <format>   Output format: gcc (default), json
   --help, -h          Show this help and exit
 
 Output formats:
-  json    Structured JSON on stdout (default)
-  gcc     One error per line: file:line: [check] message
+  gcc     One error per line: file:line: [check] message (default)
+  json    Structured JSON on stdout
 
 Exit codes:
   0       No errors found
@@ -30,7 +30,7 @@ Exit codes:
 
 Examples:
   immanent-checker --suite ./checks --project ./src
-  immanent-checker --suite ./checks --project ./src --format gcc
+  immanent-checker --suite ./checks --project ./src --format json
   immanent-checker --suite ./checks --project ./src --exclude "vendor/*"
 
 HELP
@@ -48,12 +48,12 @@ try {
                                      $arrArguments['suite'],
                                      $arrArguments['exclude']);
 
-  $strFormat = empty($arrArguments['format']) ? 'json' : end($arrArguments['format']);
+  $strFormat = empty($arrArguments['format']) ? 'gcc' : end($arrArguments['format']);
 
-  if('gcc' === $strFormat)
-    $strOutput = \ImmanentChecker\Output\gcc();
-  else
+  if('json' === $strFormat)
     $strOutput = \ImmanentChecker\Output\json();
+  else
+    $strOutput = \ImmanentChecker\Output\gcc();
 
   if('' === $strOutput)
     exit(0);
