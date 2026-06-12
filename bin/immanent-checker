@@ -12,7 +12,12 @@ try {
                                      $arrArguments['suite'],
                                      $arrArguments['exclude']);
 
-  $strOutput = \ImmanentChecker\Output\json();
+  $strFormat = empty($arrArguments['format']) ? 'json' : end($arrArguments['format']);
+
+  if('gcc' === $strFormat)
+    $strOutput = \ImmanentChecker\Output\gcc();
+  else
+    $strOutput = \ImmanentChecker\Output\json();
 
   if($strOutput === '')
     exit(0);

@@ -15,9 +15,10 @@ function parseArguments(array $arrArguments): array {
 
   $arrResult  = array('exclude' => array(),
                       'suite'   => array(),
-                      'project' => array());
-  
-  $arrAllowed = array('--exclude', '--suite', '--project');
+                      'project' => array(),
+                      'format'  => array());
+
+  $arrAllowed = array('--exclude', '--suite', '--project', '--format');
 
   $intArgNum = count($arrArguments);
 
